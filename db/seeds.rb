@@ -5,3 +5,11 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+# Load Nomisma triples
+connection = Blacklight.default_index.connection
+repo = connection.url
+raise "Expected connection to a repository" unless repo.is_a?(RDF::Repository)
+require 'byebug'; byebug
+repo.load("db/nomisma.ttl")
+$stderr.puts "Loaded #{repo.count} triples"

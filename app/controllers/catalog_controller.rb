@@ -4,15 +4,18 @@ class CatalogController < ApplicationController
   include Blacklight::Catalog
 
   configure_blacklight do |config|
-    ## Default parameters to send to solr for all search-like requests. See also SearchBuilder#processed_parameters
-    config.default_solr_params = { 
-      :qt => 'search',
-      :rows => 10 
-    }
+    # Class for sending and receiving requests from a search index
+    config.repository_class = Blacklight::Sparql::Repository
     
-    # solr path which will be added to solr base url before the other solr params.
-    #config.solr_path = 'select' 
-    
+    # Class for converting Blacklight's url parameters to into request parameters for the search index
+    config.search_builder_class = ::SearchBuilder
+
+    # Model that describes a Document
+    config.document_model = ::SparqlDocument
+
+    # Model that maps search index responses to the blacklight response model
+    config.response_model = Blacklight::Sparql::Response
+
     # items to show per page, each number in the array represent another option to choose from.
     #config.per_page = [10,20,50,100]
 
@@ -124,7 +127,6 @@ class CatalogController < ApplicationController
     # since we aren't specifying it otherwise. 
     
     config.add_search_field 'all_fields', :label => 'All Fields'
-    
 
     # Now we see how to over-ride Solr request handler defaults, in this
     # case for a BL "search field", which is really a dismax aggregate
