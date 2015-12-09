@@ -1,4 +1,5 @@
 require 'sparql/client'
+require 'blacklight/sparql'
 
 module Blacklight::Sparql
   class Repository < Blacklight::AbstractRepository
@@ -9,29 +10,34 @@ module Blacklight::Sparql
     # @param [Hash] additional query parameters
     # @return [Blacklight::Solr::Response] the SPARQL response object
     def find id, params = {}
-      query = %(DESCRIBE <%{id}>)
-      require 'byebug'; byebug
+      # Document query with a restriction on 
+      query = ::SparqlDocument::DOC_QUERY % {
+        modifier: "FILTER(?id = IRI('%{id}'))",
+        language: "en"  # FIXME facet or config?
+      }
       response = send_and_receive query: query, id: id
-      raise Blacklight::Exceptions::RecordNotFound.new if enumerable.empty?
-      enumerable
+      raise Blacklight::Exceptions::RecordNotFound.new if response.documents.empty?
+      response
     end
 
     ##
     # Execute a search query against sparql
-    # @param [Hash] sparql query parameters
+    # @param [Hash] params sparql query parameters
+    # @option params [String] :query
+    #   SPARQL query should return result set. Query string can be parameterized
+    #   with arguments in `params` interpolated using `String#%`.
     # @return [Blacklight::Solr::Response] the SPARQL response object
     def search params = {}
       send_and_receive params
     end
 
     ##
-    # Execute a SPARQL query
-    # @overload find(endpoint, params)
-    #   Execute a SPARQL query at the given endpoint with the parameters
-    #   @param [RDF::URI] endpoint (defaults to blacklight_config.sparql_endpoint)
-    #   @param [Hash] parameters for SPARQL::Client.query
-    # @overload find(params)
-    #   @param [Hash] parameters for SPARQL::Client.query
+    # Execute a SPARQL query returning `RDF::Query::Solutions`
+    #
+    # @param [Hash] params for SPARQL::Client.query
+    # @option params [String] :query
+    #   SPARQL query should return result set. Query string can be parameterized
+    #   with arguments in `params` interpolated using `String#%`.
     # @return [Blacklight::Sparql::Response] the SPARQL response object
     def send_and_receive(params = {})
       benchmark("SPARQL fetch", level: :debug) do
@@ -40,7 +46,7 @@ module Blacklight::Sparql
 
         sparql_response = blacklight_config.response_model.new(res, params, document_model: blacklight_config.document_model, blacklight_config: blacklight_config)
 
-        Blacklight.logger.debug {"SPARQL query: #{endpoint} #{params.fetch(:query) % params}"}
+        Blacklight.logger.debug {"SPARQL query: #{params.fetch(:query) % params}"}
         Blacklight.logger.debug {"SPARQL response: #{sparql_response.inspect}"} if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
         sparql_response
       end

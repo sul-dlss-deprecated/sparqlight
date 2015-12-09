@@ -11,7 +11,7 @@ describe Blacklight::Sparql::Repository do
   end
 
   let :mock_response do
-    { response: { docs: [document]}}
+    [RDF::Query::Solution.new]
   end
 
   let :document do
@@ -19,37 +19,32 @@ describe Blacklight::Sparql::Repository do
   end
 
   describe "#find" do
-    it "returns the entity description for a given IRI" do
-      expect(subject.find("http://nomisma.org/id/-des_cos")).to be_a?(Blacklight::Sparql::Document)
+    it "should preserve the class of the incoming params" do
+      doc_params = HashWithIndifferentAccess.new
+      allow(subject.connection).to receive(:query).with(anything).and_return(mock_response)
+      response = subject.find("http://example/123", doc_params)
+      expect(response).to be_a_kind_of Blacklight::Sparql::Response
+      expect(response.params).to be_a_kind_of HashWithIndifferentAccess
     end
   end
 
   describe "#search" do
-    it "should use the search-specific solr path"
-
-    it "should use the default solr path"
-
-    it "should use a default :qt param"
-
-    it "should use the provided :qt param"
-    
-    it "should preserve the class of the incoming params"
-  end
-
-  describe "#send_and_receive" do
-    describe "http_method configuration" do
-      describe "using default" do
-
-        it "defaults to get"
-      end
-
-      describe "setting to post"
+    it "should preserve the class of the incoming params" do
+      search_params = HashWithIndifferentAccess.new
+      search_params[:query] = "query"
+      allow(subject.connection).to receive(:query).with(anything).and_return(mock_response)
+      
+      response = subject.search(search_params)
+      expect(response).to be_a_kind_of Blacklight::Sparql::Response
+      expect(response.params).to be_a_kind_of HashWithIndifferentAccess
     end
   end
 
-  describe "http_method configuration", integration: true do
-    let (:blacklight_config) {config = Blacklight::Configuration.new; config.http_method=:post; config}
-
-    it "should send a post request to solr and get a response back"
+  describe "#find", integration: true do
+    it "returns the entity description for a given IRI" do
+      result = subject.find("http://nomisma.org/id/10-as")
+      expect(result).to be_a(Blacklight::Sparql::Response)
+      expect(result.documents.length).to eql 1
+    end
   end
 end

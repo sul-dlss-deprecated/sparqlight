@@ -3,10 +3,10 @@
 
 development:
   adapter: Sparql
-  repository: "sqlite3:db/development.sqlite3"
+  repository: "sqlite3:db/nomisma.sqlite3"
 test: &test
   adapter: Sparql
-  repository: "sqlite3:db/test.sqlite3"
+  repository: "sqlite3:db/nomisma.sqlite3"
 production:
   adapter: Sparql
   url: <%= ENV['SPARQL_URL'] || "http://127.0.0.1/FIXME" %>
