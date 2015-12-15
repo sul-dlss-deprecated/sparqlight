@@ -20,7 +20,7 @@ module Blacklight::Sparql
       # Merge in search field configured values, if present, over-writing general defaults
 
       if search_field
-        sparql_parameters.merge!( search_field.sparql_parameters) if search_field.sparql_parameters
+        sparql_parameters.merge!(search_field.sparql_parameters) if search_field.sparql_parameters
       end
 
       ##

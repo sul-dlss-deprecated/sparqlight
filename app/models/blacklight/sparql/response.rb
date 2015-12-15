@@ -43,7 +43,7 @@ module Blacklight::Sparql
     attr_reader :request_params
     attr_accessor :document_model, :blacklight_config
 
-    # @param [RDF::Queryable::Solutions] solutions
+    # @param [Array] docs
     # @param [Hash{Symbol => Object}] request_params
     # @param [Hash{Symbol => Object}] options
     # @option options [Integer] :numFound
@@ -54,7 +54,7 @@ module Blacklight::Sparql
       self.blacklight_config = options[:blacklight_config]
 
       facet_counts = options.fetch(:facet_counts, {})
-      super(response: {numFound: options[:numFound], start: self.start, docs: solutions.map(&:to_hash)},
+      super(response: {numFound: options[:numFound], start: self.start, docs: docs},
             facet_counts: facet_counts
       )
     end

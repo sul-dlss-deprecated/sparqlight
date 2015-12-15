@@ -11,7 +11,9 @@ describe Blacklight::Sparql::Repository do
   end
 
   let :mock_response do
-    [RDF::Query::Solution.new]
+    RDF::Graph.new do |g|
+      g << RDF::Statement(RDF::URI("http://example/123"), RDF.type, RDF::URI("http://nomisma.org/ontology#Denomination"))
+    end
   end
 
   let :document do

@@ -14,6 +14,10 @@ module Blacklight::Sparql::Document
   include Blacklight::Document
   include Blacklight::Document::ActiveModelShim
 
+  # Turn solutions into hashes representing documents. Note a main entity may relate to one or more sub-entities, which themselves may reference one or more sub-entities, etc. Scalar values may be multiple too.
+  def self.solutions_to_docs
+  end
+
   # FIXME: 
   #def has_highlight_field? k
   #  return false if response['highlighting'].blank? or response['highlighting'][self.id].blank?
