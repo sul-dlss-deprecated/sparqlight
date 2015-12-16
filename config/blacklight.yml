@@ -3,10 +3,12 @@
 
 development:
   adapter: Sparql
-  repository: "sqlite3:db/nomisma.sqlite3"
+  repository: "mongo"
+  collection: "nomisma"
 test: &test
   adapter: Sparql
-  repository: "sqlite3:db/nomisma.sqlite3"
+  repository: "mongo"
+  collection: "nomisma"
 production:
   adapter: Sparql
   url: <%= ENV['SPARQL_URL'] || "http://127.0.0.1/FIXME" %>

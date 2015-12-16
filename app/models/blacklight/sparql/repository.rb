@@ -176,7 +176,6 @@ module Blacklight::Sparql
     def send_and_receive(query)
       benchmark("SPARQL fetch", level: :debug) do
         # Query endpoint, interpolating parameters
-        require 'byebug'; byebug
         sparql_response = connection.query(query)
 
         Blacklight.logger.debug {"SPARQL query: #{query}"}
@@ -194,12 +193,21 @@ module Blacklight::Sparql
     def build_connection
       case connection_config
       when Hash
-        config = if connection_config[:repository]
-          require 'rdf/do'
-          require 'do_sqlite3'
+        if connection_config[:repository]
+          # Create a new repository to use as client
+          case repo_config = connection_config[:repository]
+          when /sqlite3|postgres/
+            require 'rdf/do'
+            require 'do_sqlite3' if repo_config.include?("sqlite3")
+            require 'do_postgres' if repo_config.include?("postgres")
 
-          # Open a local repository and use as a SPARQL client
-          SPARQL::Client.new RDF::DataObjects::Repository.new(connection_config[:repository])
+            # Open a local repository and use as a SPARQL client
+            SPARQL::Client.new RDF::DataObjects::Repository.new(repo_config)
+          when /mongo/
+            require 'rdf/mongo'
+            SPARQL::Client.new RDF::Mongo::Repository.new(connection_config)
+          else
+          end
         elsif connection_config[:url]
           SPARQL::Client.new(connection_config[:url])
         else
