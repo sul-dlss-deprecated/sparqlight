@@ -59,7 +59,9 @@ gem 'sparql',         '~> 1.99'
 gem 'json-ld',        '~> 1.99'
 
 group :development, :test do
-  gem 'rdf-do',       '~> 1.99' # Using DataObjects for SPARQL store
-  gem 'data_objects', '~> 0.10'
-  gem 'do_sqlite3' ,  '~> 0.10'
+  #gem 'rdf-do',       '~> 1.99' # Using DataObjects for SPARQL store
+  #gem 'data_objects', '~> 0.10'
+  #gem 'do_sqlite3' ,  '~> 0.10'
+  gem 'rdf-mongo'
+  gem 'bson_ext'
 end

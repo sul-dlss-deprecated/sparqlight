@@ -48,7 +48,7 @@ module Blacklight::Sparql
     # @param [Hash{Symbol => Object}] options
     # @option options [Integer] :numFound
     # @option options [Hash] :facet_counts
-    def initialize(solutions, request_params, options = {})
+    def initialize(docs, request_params, options = {})
       @request_params = request_params.with_indifferent_access
       self.document_model = options[:sparql_document_model] || options[:document_model] || ::SparqlDocument
       self.blacklight_config = options[:blacklight_config]

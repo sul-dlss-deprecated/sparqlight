@@ -10,5 +10,6 @@
 connection = Blacklight.default_index.connection
 repo = connection.url
 raise "Expected connection to a repository" unless repo.is_a?(RDF::Repository)
-repo.load("db/nomisma.nt")
+repo.clear!
+repo.load("db/nomisma.ttl")
 $stderr.puts "Loaded #{repo.count} triples"

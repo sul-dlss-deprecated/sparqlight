@@ -36,7 +36,6 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    addressable (2.3.8)
     arel (6.0.3)
     autoprefixer-rails (6.1.0.1)
       execjs
@@ -55,6 +54,9 @@ GEM
     bootstrap-sass (3.3.5.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.3.0)
+    bson (1.12.5)
+    bson_ext (1.12.4)
+      bson (~> 1.12.4)
     builder (3.2.2)
     byebug (8.2.0)
     coffee-rails (4.1.0)
@@ -64,14 +66,10 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
-    data_objects (0.10.16)
-      addressable (~> 2.1)
     debug_inspector (0.0.2)
     deprecation (0.2.2)
       activesupport
     diff-lcs (1.2.5)
-    do_sqlite3 (0.10.16)
-      data_objects (= 0.10.16)
     ebnf (1.0.0)
       rdf (~> 1.1)
       sxp (~> 0.1, >= 0.1.3)
@@ -102,6 +100,8 @@ GEM
     mime-types (2.6.2)
     mini_portile (0.6.2)
     minitest (5.8.3)
+    mongo (1.12.5)
+      bson (= 1.12.5)
     multi_json (1.11.2)
     net-http-persistent (2.9.4)
     nokogiri (1.6.6.4)
@@ -138,8 +138,8 @@ GEM
       link_header (~> 0.0, >= 0.0.8)
     rdf-aggregate-repo (1.99.0)
       rdf (~> 1.99)
-    rdf-do (1.99.0.1)
-      data_objects (~> 0.10)
+    rdf-mongo (1.99.0)
+      mongo (~> 1.10)
       rdf (~> 1.99)
     rdf-turtle (1.99.0)
       ebnf (~> 1.0)
@@ -228,16 +228,15 @@ PLATFORMS
 
 DEPENDENCIES
   blacklight (= 6.0.0.pre4)
+  bson_ext
   byebug
   coffee-rails (~> 4.1.0)
-  data_objects (~> 0.10)
-  do_sqlite3 (~> 0.10)
   jbuilder (~> 2.0)
   jquery-rails
   json-ld (~> 1.99)
   rails (= 4.2.5)
   rdf (~> 1.99)
-  rdf-do (~> 1.99)
+  rdf-mongo
   rdf-turtle (~> 1.99)
   rspec
   rspec-its
