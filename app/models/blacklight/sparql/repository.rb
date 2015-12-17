@@ -28,7 +28,7 @@ module Blacklight::Sparql
     # @option params [Hash{String => Array<String>}] :facet_values
     #   List of bound facets by variable, with individual or multiple values
     # @option params [Hash{String => String}] :search
-    #   List of search terms by variable to the regular expression it should match
+    #   List of search terms by variable containing the substring
     # @option params [Hash{String => Hash}] :facets
     #   Configuration for each facet aggregation query including sorting, offset/limit, and facet value prefix
     # @option params [Hash] :fields
@@ -74,7 +74,7 @@ module Blacklight::Sparql
       # FIXME escape filter values
       # FIXME non-string values?
       params.fetch(:search, {}).each do |variable, value|
-        where += "  FILTER(#{variable} = '#{value}')\n"
+        where += "  FILTER(CONTAINS(#{variable}, '#{value}'))\n"
       end
 
       # Add facet values
@@ -85,15 +85,16 @@ module Blacklight::Sparql
           values = value.map {|v| "'#{v}'"}.join(', ')
           "  FILTER(#{variable} IN(#{values}))\n"
         when String
-          "  FILTER(#{variable} = '#{value}'\n"
+          "  FILTER(#{variable} = '#{value}')\n"
         else
           ""
         end
       end
 
       # Get record count
-      count = if params[:id]
-        1
+      count = case
+      when params[:rows] == 0 then 0
+      when params[:id] then 1
       else
         res = connection.query(prefixes + "SELECT (COUNT(?id) as ?__count__)\n" + where + "}")
         (res.first || {})[:__count__].to_i
@@ -117,7 +118,7 @@ module Blacklight::Sparql
         query = prefixes + index_query +
           where + "}\n" +
           "LIMIT #{params.fetch(:rows, 10).to_i}\n"
-        query += "OFFSET #{params[:start]}" if params[:start].to_i
+        query += "OFFSET #{params[:start]}" if params[:start].to_i > 0
 
         # FIXME: ordering
 
@@ -126,7 +127,7 @@ module Blacklight::Sparql
         # FIXME: if we used a sub-select, this could be done in a single query
         # Get back constructed entities as a frame
         query = prefixes + construct + where +
-        "  FILTER(?id IN(#{ids.map(to_ntriples).join(',')}))\n}\n"
+        "  FILTER(?id IN(#{ids.map(&:to_ntriples).join(',')}))\n}\n"
         graph = send_and_receive(query)
 
         # Frame the enumerable results as docs
@@ -139,23 +140,27 @@ module Blacklight::Sparql
       end
       raise "No framed results" unless docs
 
-      # Get facet counts
-      facet_counts = {}
+      # Get facet fields
+      facet_fields = HashWithIndifferentAccess.new
       params.fetch(:facets, {}).each do |name, facet|
-        var_sym = facet.variable.to_s[1..-1].to_sym
-        query = prefixes + "SELECT #{facet.variable} (COUNT(*) as ?__count__)\n" +
+        var_sym = facet[:variable].to_s[1..-1].to_sym
+        query = prefixes + "\nSELECT #{facet[:variable]} (COUNT(*) as ?__count__)" +
           where + "}\n" +
-          "GROUP BY #{facet.variable}\n"
-        query += "OFFSET #{facet.offset.to_i}\n" if facet.offset
-        query += "LIMIT #{facet.limit.to_i}\n" if facet.limit
+          "GROUP BY #{facet[:variable]}\n"
+        query += "OFFSET #{facet[:offset].to_i}\n" if facet[:offset]
+        query += "LIMIT #{facet[:limit].to_i}\n" if facet[:limit]
 
         # FIXME: ordering
-        query += "ORDER BY #{facet.variable}\n"
+        query += "ORDER BY #{facet[:variable]}\n"
 
-        facet_counts[name] = send_and_receive(query).map do |soln|
-          [soln[var_sym], soln[:__count__]]
+        facet_fields[name] = send_and_receive(query).map do |soln|
+          [soln[var_sym].object, soln[:__count__].object]
         end.flatten
       end
+
+      facet_counts = HashWithIndifferentAccess.new
+      # FIXME: where would facet_queries come from?
+      facet_counts[:facet_fields] = facet_fields
 
       response_opts = {
         facet_counts: facet_counts,

@@ -147,7 +147,7 @@ nm:chios
     skos:altLabel "Khios"@en ;
     skos:broader nm:islands_off_ionia ;
     skos:closeMatch <http://collection.britishmuseum.org/id/place/x28201>, <http://dbpedia.org/resource/Chios_(town)>, <http://pleiades.stoa.org/places/550496>, <http://vocab.getty.edu/tgn/1042072>, <http://www.geonames.org/259972>, <http://www.geonames.org/259973>, <http://www.wikidata.org/entity/Q748832>, <https://www.freebase.com/m/0b40ng> ;
-    skos:definition "The mint at the ancient site of Chios on Chios, off Ionia."@en ;
+    skos:definition "The mint at the ancient site of Chios on Chios, off Ionia."@en .
 
 nm:greek_numismatics
     a nmo:FieldOfNumismatics, skos:Concept ;
@@ -215,4 +215,3 @@ nm:issuer
     a skos:Concept, org:Role ;
     skos:definition "The office holder responsible for the issuance of a coin. Can be distinct from the ruler in whose name a coin is issued."@en ;
     skos:prefLabel "Issuer"@en .
-    skos:prefLabel "Chio"@it, "Chios"@de, "Chios"@en, "Chios"@fr, "Chios"@la, "Chios"@nl, "Chios"@pl, "Chios"@ro, "Chíos"@et, "Chíos"@fi, "Hios"@hr, "Hios"@sh, "Khios"@nb, "Khíos by"@nn, "Quios"@pt, "Quíos"@es, "Χίος"@el, "Хиос"@bg, "Хиос"@ru, "Хиос"@sr, "Хіос"@uk, "خيوس"@ar, "ヒオス"@ja, "希俄斯"@zh, "히오스"@ko .
