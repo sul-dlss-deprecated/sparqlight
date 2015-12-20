@@ -15,10 +15,10 @@ module Blacklight::Sparql
     # Take the user-entered query, and put it in the SPARQL params,
     # including config's "search field" params for current search field.
     def add_query_to_sparql sparql_parameters
-      if search_field
+      if field = search_field || blacklight_config.default_search_field
         search_def = {
-          variable: search_field.variable,
-          patterns: search_field.patterns
+          variable: field.variable,
+          patterns: field.patterns
         }
 
         if blacklight_params[:q].is_a? Hash
@@ -27,7 +27,7 @@ module Blacklight::Sparql
         elsif blacklight_params[:q]
           # Create search field with variable, pattern and :q
           search_def.merge!(q: blacklight_params[:q])
-          sparql_parameters[:search] = {search_def[:variable] => search_def}
+          sparql_parameters[:search] = search_def
         end
       end
     end
@@ -89,7 +89,9 @@ module Blacklight::Sparql
     end
 
     def add_sparql_fields_to_query sparql_parameters
-      sparql_parameters[:show_fields] = blacklight_config.show_fields.select(&method(:should_add_field_to_request?)).values
+      fields = blacklight_config.show_fields.select(&method(:should_add_field_to_request?)).values
+      fields = blacklight_config.index_fields.select(&method(:should_add_field_to_request?)).values
+      sparql_parameters[:fields] = fields
     end
 
     ###
@@ -168,6 +170,7 @@ module Blacklight::Sparql
       end
     end
 
+    # FIXME: we should create an alias of add_facet_fields_to_solr_request to add_facet_fields_to_sparql_request
     def facet_fields_to_include_in_request
       blacklight_config.facet_fields.select do |field_name,facet|
         facet.include_in_request || (facet.include_in_request.nil? && blacklight_config.add_facet_fields_to_solr_request)

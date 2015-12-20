@@ -1,4 +1,4 @@
-module Blacklight::Solr
+module Blacklight::Sparql
   class Request < HashWithIndifferentAccess
   end
 end
