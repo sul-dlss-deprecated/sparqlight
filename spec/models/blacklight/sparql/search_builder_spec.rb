@@ -50,20 +50,11 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
 
     let(:blacklight_config) do
       Blacklight::Configuration.new.tap do |config|
-        config.add_search_field("test_field",
-                           :display_label => "Test",
-                           :key=>"test_field",
-                           :sparql_parameters => {
-                             :sort => "request_params_sort" }
-                          )
+        config.add_search_field "test_field", label: "Test", variable: "?test"
       end
     end
-    it "should merge parameters from search_field definition", pending: "SPARQL" do
-      expect(subject[:qf]).to eq "fieldOne^2.3 fieldTwo fieldThree^0.4"
-      expect(subject[:spellcheck]).to eq 'false'
-    end
-    it "should merge empty string parameters from search_field definition", pending: "SPARQL" do
-      expect(subject[:pf]).to eq ""
+    it "should set search from search_field definition" do
+      expect(subject[:search]).to eq({"?test" => {"variable" => "?test", "patterns" => nil, "q" => "test query"}})
     end
 
     describe "should respect proper precedence of settings, " do
@@ -71,11 +62,7 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
         expect(subject[:search_field]).to be_nil
       end
 
-      it "should fall through to BL general defaults for qt not otherwise specified", pending: "SPARQL" do
-        expect(subject[:qt]).to eq blacklight_config[:default_sparql_params][:qt]
-      end
-
-      it "should add in extra facet.field from params" do
+      it "should add in extra facet.field from params", pending: "Does this make sense for SPARQL; facets need to be configured" do
         expect(subject[:"facet.field"]).to include("extra_facet")
       end
     end
@@ -83,11 +70,12 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
 
   # SPECS for actual search parameter generation
   describe "#processed_parameters" do
+
     subject do
       search_builder.with(user_params).processed_parameters
     end
 
-    context "when search_params_logic is customized" do
+    context "when search_params_logic is customized", skip: "This doesn't seem relevant for SPARQL, as it's BL logic" do
       let(:search_builder) { search_builder_class.new(method_chain, context) }
       let(:method_chain) { [:add_foo_to_sparql_params] }
 
@@ -100,7 +88,7 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
       end
     end
 
-    it "should generate a facet limit" do
+    it "should generate a facet limit", pending: "Don't understand where this would come from for SPARQL" do
       expect(subject[:"f.subject_topic_facet.facet.limit"]).to eq 21
     end
 
@@ -125,79 +113,85 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
 
     describe 'for an entirely empty search' do
 
-      it 'should not have a q param' do
-        expect(subject[:q]).to be_nil
-        expect(subject["spellcheck.q"]).to be_nil
+      it 'should not have a search param' do
+        expect(subject[:search]).to be_nil
       end
       it 'should have default rows' do
         expect(subject[:rows]).to eq 10
       end
       it 'should have default facet fields' do
-        # remove local params from the facet.field
-        expect(subject[:"facet.field"].map { |x| x.gsub(/\{![^}]+\}/, '') }).to match_array ["format", "subject_topic_facet", "pub_date", "language_facet", "lc_1letter_facet", "subject_geo_facet", "subject_era_facet"]
+        expect(subject[:facet]).to eq("?num_lab" => {"variable" => "?num_lab"})
       end
-
-      it "should not have a default qt"  do
-        expect(subject[:qt]).to be_nil
-      end
-      it "should have no fq" do
-        expect(subject[:phrase_filters]).to be_blank
-        expect(subject[:fq]).to be_blank
+      it "should have no facet_values" do
+        expect(subject[:facet_values]).to be_blank
       end
     end
 
 
     describe "for an empty string search" do
       let(:user_params) { { q: "" } }
-      it "should return empty string q in sparql parameters" do
-        expect(subject[:q]).to eq ""
+      it "should return empty string search in sparql parameters", pending: "No search without search_field" do
+        expect(subject[:search]).to eq ""
       end
     end
 
-    describe "for request params also passed in as argument" do
+    describe "for request params also passed in as argument", pending: "No search without search_field" do
       let(:user_params) { { q: "some query", 'q' => 'another value' } }
       it "should only have one value for the key 'q' regardless if a symbol or string" do
-        expect(subject[:q]).to eq 'some query'
-        expect(subject['q']).to eq 'some query'
+        expect(subject[:search]).to eq 'some query'
+        expect(subject['search']).to eq 'some query'
       end
     end
 
 
     describe "for one facet, no query" do
       let(:user_params) { { f: single_facet } }
+      let(:blacklight_config) do
+        Blacklight::Configuration.new.tap do |config|
+          config.add_facet_field 'format',
+            :label => 'Format',
+            :variable => "?format"
+        end
+      end
       it "should have proper sparql parameters" do
 
-        expect(subject[:q]).to be_blank
-        expect(subject["spellcheck.q"]).to be_blank
+        expect(subject[:search]).to be_blank
 
         single_facet.each_value do |value|
-          expect(subject[:fq]).to include("{!term f=#{single_facet.keys[0]}}#{value}")
+          expect(subject[:facet_values]).to include("?format" => "Book")
         end
       end
     end
 
     describe "for an empty facet limit param" do
       let(:user_params) { { f: { "format" => [""] } } }
-      it "should not add any fq to sparql" do
-        expect(subject[:fq]).to be_blank
+      let(:blacklight_config) do
+        Blacklight::Configuration.new.tap do |config|
+          config.add_facet_field 'format',
+            :label => 'Format',
+            :variable => "?format"
+        end
+      end
+      it "should not add any facet_values to sparql" do
+        expect(subject[:facet_values]).to be_blank
       end
     end
 
     describe "with Multi Facets, No Query" do
       let(:user_params) { { f: multi_facets } }
-      it 'should have fq set properly' do
-        multi_facets.each_pair do |facet_field, value_list|
-          value_list ||= []
-          value_list = [value_list] unless value_list.respond_to? :each
-          value_list.each do |value|
-            expect(subject[:fq]).to include("{!term f=#{facet_field}}#{value}"  )
-          end
+      let(:blacklight_config) do
+        Blacklight::Configuration.new.tap do |config|
+          config.add_facet_field 'format', label: 'Format', variable: "?format"
+          config.add_facet_field 'language_facet', label: "Language", variable: "?language"
         end
-
+      end
+      it 'should have facet_values set properly' do
+        expect(subject[:facet_values]).to include("?format" => "Book")
+        expect(subject[:facet_values]).to include("?language" => "Tibetan")
       end
     end
 
-    describe "with Multi Facets, Multi Word Query" do
+    describe "with Multi Facets, Multi Word Query", pending: "No search without search_field" do
       let(:user_params) { { q: mult_word_query, f: multi_facets } }
       it 'should have fq and q set properly' do
         multi_facets.each_pair do |facet_field, value_list|
@@ -216,7 +210,7 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
       let(:user_params) { subject_search_params }
 
       it "should look up qt from field definition" do
-        expect(subject[:qt]).to eq "search"
+        expect(subject).to be_empty
       end
 
       it "should not include weird keys not in field definition" do
@@ -400,8 +394,7 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
 
   describe "#add_sparql_fields_to_query" do
     let(:blacklight_config) do
-      config = Blacklight::Configuration.new do |config|
-
+      Blacklight::Configuration.new do |config|
         config.add_index_field 'an_index_field', sparql_params: { 'hl.alternativeField' => 'field_x'}
         config.add_show_field 'a_show_field', sparql_params: { 'hl.alternativeField' => 'field_y'}
         config.add_field_configuration_to_sparql_request!
@@ -425,15 +418,12 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
   describe "#add_facetting_to_sparql" do
 
     let(:blacklight_config) do
-       config = Blacklight::Configuration.new
-
-       config.add_facet_field 'test_field', :sort => 'count'
-       config.add_facet_field 'some-query', :query => {'x' => {:fq => 'some:query' }}, :ex => 'xyz'
-       config.add_facet_field 'some-pivot', :pivot => ['a','b'], :ex => 'xyz'
-       config.add_facet_field 'some-field', sparql_params: { 'facet.mincount' => 15 }
-       config.add_facet_fields_to_sparql_request!
-
-       config
+       Blacklight::Configuration.new do |config|
+         config.add_facet_field 'test_field', sort: 'count', variable: "?test"
+         #config.add_facet_field 'some-query', :query => {'x' => {:fq => 'some:query' }}, :ex => 'xyz'
+         config.add_facet_field 'some-field', variable: "?some"
+         config.add_facet_fields_to_sparql_request!
+       end
     end
 
     let(:sparql_parameters) do
@@ -488,12 +478,12 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
     describe ":add_facet_fields_to_sparql_request!" do
 
       let(:blacklight_config) do
-        config = Blacklight::Configuration.new
-        config.add_facet_field 'yes_facet', include_in_request: true
-        config.add_facet_field 'no_facet', include_in_request: false
-        config.add_facet_field 'maybe_facet'
-        config.add_facet_field 'another_facet'
-        config
+        Blacklight::Configuration.new do |config|
+          config.add_facet_field 'yes_facet', include_in_request: true
+          config.add_facet_field 'no_facet', include_in_request: false
+          config.add_facet_field 'maybe_facet'
+          config.add_facet_field 'another_facet'
+        end
       end
 
       let(:sparql_parameters) do
@@ -603,7 +593,6 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
     end
 
     it "should not add an !ex local parameter if it isn't configured" do
-      mock_field = double()
       expect(subject.with_ex_local_param(nil, "some-value")).to eq "some-value"
     end
   end

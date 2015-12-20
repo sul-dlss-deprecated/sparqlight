@@ -27,8 +27,8 @@ module Blacklight::Sparql
     # @param [Hash] params sparql query parameters
     # @option params [Hash{String => Array<String>}] :facet_values
     #   List of bound facets by variable, with individual or multiple values
-    # @option params [Hash{String => String}] :search
-    #   List of search terms by variable containing the substring
+    # @option params [Hash{String => Hash}] :search
+    #   Configuration for each search query. Based on the field definition with `:q` added for the value to search on.
     # @option params [Hash{String => Hash}] :facets
     #   Configuration for each facet aggregation query including sorting, offset/limit, and facet value prefix
     # @option params [Hash] :fields
@@ -74,7 +74,10 @@ module Blacklight::Sparql
       # FIXME escape filter values
       # FIXME non-string values?
       params.fetch(:search, {}).each do |variable, value|
-        where += "  FILTER(CONTAINS(#{variable}, '#{value}'))\n"
+        patterns = value.fetch(:patterns, ["FILTER(CONTAINS(%{variable}, '%{q}'))"])
+        patterns.each do |pattern|
+          where += pattern % value
+        end
       end
 
       # Add facet values
