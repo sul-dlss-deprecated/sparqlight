@@ -161,8 +161,12 @@ module Blacklight::Sparql
         query += "OFFSET #{facet[:offset].to_i}\n" if facet[:offset]
         query += "LIMIT #{facet[:limit].to_i}\n" if facet[:limit]
 
-        # FIXME: ordering
-        query += "ORDER BY #{facet[:variable]}\n"
+        # Order by variable our count
+        query += if facet[:sort] == 'count'
+          "ORDER BY __count__\n"
+        else
+          "ORDER BY #{facet[:variable]}\n"
+        end
 
         # FIXME: consider facet prefixes for SPARQL
 

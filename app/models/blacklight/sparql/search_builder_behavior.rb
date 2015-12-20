@@ -68,23 +68,16 @@ module Blacklight::Sparql
         sparql_parameters[:facet] ||= {}
         facet_param = {variable: facet.variable}
 
-        case
-          when facet.query
-            # FIXME: no support for Facet queries just yet
-            sparql_parameters.append_facet_query facet.query.map { |k, x| x[:fq] }
-          else
-            sparql_parameters[:facet][facet.variable] = facet_param
-        end
-
-        # FIXME: can only sort on variable, may specify ASC or DESC
-        #if facet.sort
-        #  sparql_parameters[:sort] = facet.sort
-        #end
+        facet_param[:sort] = facet.sort if facet.sort
 
         # Support facet paging and 'more'
         # links, by sending a facet.limit one more than what we
         # want to page at, according to configured facet limits.
         facet_param[:limit] = (facet_limit_for(field_name) + 1) if facet_limit_for(field_name)
+
+        # FIXME: no support for Facet queries just yet
+        #sparql_parameters.append_facet_query facet.query.map { |k, x| x[:fq] }
+        sparql_parameters[:facet][facet.variable] = facet_param
       end
     end
 
@@ -145,15 +138,11 @@ module Blacklight::Sparql
 
       # Need to set as f.facet_field.facet.*  to make sure we
       # override any field-specific default in the solr request handler.
-      facet_param[:limit] = limit
+      facet_param[:limit]  = limit
       facet_param[:offset] = offset
-      if blacklight_params[request_keys[:sort]]
-        facet_param[:sort] = sort
-      end
+      facet_param[:sort]   = sort if blacklight_params[request_keys[:sort]]
+      facet_param[:prefix] = prefix if blacklight_params[request_keys[:prefix]]
 
-      if blacklight_params[request_keys[:prefix]]
-        facet_param[:prefix] = prefix
-      end
       sparql_parameters[:facet][facet_config.variable] = facet_param
       sparql_parameters[:rows] = 0
     end

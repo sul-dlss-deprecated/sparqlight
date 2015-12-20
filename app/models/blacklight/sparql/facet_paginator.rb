@@ -19,8 +19,12 @@ module Blacklight::Sparql
     def initialize(all_facet_values, arguments = {})
       super
 
-      # FIXME: facet sorting in SPARQL
-      @sort ||= :FIXME
+      # Sort on facet value or count
+      @sort ||= if @limit.to_i > 0
+                  'count'
+                else
+                  'index'
+                end
     end
   end
 end

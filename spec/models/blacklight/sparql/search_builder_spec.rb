@@ -327,7 +327,7 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
     end
 
     it "should add plain parameters" do
-      expect(sparql_parameters[:facet]).to include({"?test" => {"variable" => "?test"}})
+      expect(sparql_parameters[:facet]).to include({"?test" => {"variable" => "?test", "sort" => "count"}})
     end
 
     it "should add sort parameters" do
