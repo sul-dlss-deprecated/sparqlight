@@ -164,6 +164,8 @@ module Blacklight::Sparql
         # FIXME: ordering
         query += "ORDER BY #{facet[:variable]}\n"
 
+        # FIXME: consider facet prefixes for SPARQL
+
         facet_fields[name] = send_and_receive(query).map do |soln|
           [soln[var_sym].object, soln[:__count__].object]
         end.flatten
