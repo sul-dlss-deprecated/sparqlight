@@ -63,6 +63,7 @@ class CatalogController < ApplicationController
     # handler defaults, or have no facets.
     # Note: this is a generic method, not specific to Solr
     config.add_facet_fields_to_solr_request!
+    config.add_field_configuration_to_solr_request!
 
     # Sparql fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display 

@@ -83,7 +83,10 @@ module Blacklight::Sparql
 
     def add_sparql_fields_to_query sparql_parameters
       fields = blacklight_config.show_fields.select(&method(:should_add_field_to_request?)).values
-      fields = blacklight_config.index_fields.select(&method(:should_add_field_to_request?)).values
+
+      blacklight_config.index_fields.select(&method(:should_add_field_to_request?)).values.each do |field|
+        fields << field unless field.any? {|f| f.variable == field.variable} # no duplicates
+      end
       sparql_parameters[:fields] = fields
     end
 

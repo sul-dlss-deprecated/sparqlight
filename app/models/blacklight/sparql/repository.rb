@@ -10,7 +10,7 @@ module Blacklight::Sparql
     # @param [Hash] additional query parameters
     # @return [Blacklight::Solr::Response] the SPARQL response object
     def find id, params = {}
-      search params.merge(id: id, fields: blacklight_config.show_fields)
+      search params.merge(id: id, fields: blacklight_config.show_fields.values)
     end
 
     ##
@@ -31,7 +31,7 @@ module Blacklight::Sparql
     #   Configuration for each search query. Based on the field definition with `:q` added for the value to search on.
     # @option params [Hash{String => Hash}] :facets
     #   Configuration for each facet aggregation query including sorting, offset/limit, and facet value prefix
-    # @option params [Hash] :fields
+    # @option params [Array] :fields
     #   Fields to show, defaults to `blacklight_config.index_fields`
     # @option params [Integer] :rows (10)
     #   Number of entities to return
@@ -39,9 +39,10 @@ module Blacklight::Sparql
     #   Index into entities for offset/limit
     # @return [Blacklight::Solr::Response] the SPARQL response object
     def search params = {}
+      params = params.to_hash unless params.is_a?(Hash)
       # Document query with a restriction on
       # Build query using defined prefixes, id, and index fields
-      fields = params.fetch(:fields, blacklight_config.index_fields)
+      fields = params.fetch(:fields, blacklight_config.index_fields.values)
       prefixes = blacklight_config.sparql_prefixes.map {|p, u| "PREFIX #{p}: <#{u}>"}.join("\n")
       index_query =  "\nSELECT DISTINCT ?id\n"
       construct = "\nCONSTRUCT {\n"
@@ -49,7 +50,7 @@ module Blacklight::Sparql
 
       construct += "  ?id a #{blacklight_config.entity_class} .\n"
       where     += "  ?id a #{blacklight_config.entity_class} .\n"
-      fields.each_value do |field|
+      fields.each do |field|
         pattern = case field.patterns
         when String
           field.patterns
@@ -66,7 +67,7 @@ module Blacklight::Sparql
 
       # Add Lanaugage filters
       # FIXME: not 'en', but configured language, defaulting to 'en'
-      fields.values.select(&:filter_language).each do |field|
+      fields.select(&:filter_language).each do |field|
         where += "  FILTER(langMatches(LANG(#{field.variable}), 'en'))\n"
       end
 

@@ -303,7 +303,7 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
 
     it "should add any extra sparql parameters from index and show fields" do
       expect(sparql_parameters).to include("fields")
-      expect(sparql_parameters[:fields].map(&:variable)).to match_array(%w(?index))
+      expect(sparql_parameters[:fields].map(&:variable)).to match_array(%w(?index ?show))
     end
   end
 
