@@ -65,7 +65,7 @@ module Blacklight::Sparql
     # Add appropriate SPARQL facetting filters.
     def add_facetting_to_sparql sparql_parameters
       facet_fields_to_include_in_request.each do |field_name, facet|
-        sparql_parameters[:facet] ||= {}
+        sparql_parameters[:facets] ||= {}
         facet_param = {variable: facet.variable}
 
         facet_param[:sort] = facet.sort if facet.sort
@@ -77,7 +77,7 @@ module Blacklight::Sparql
 
         # FIXME: no support for Facet queries just yet
         #sparql_parameters.append_facet_query facet.query.map { |k, x| x[:fq] }
-        sparql_parameters[:facet][facet.variable] = facet_param
+        sparql_parameters[:facets][facet.variable] = facet_param
       end
     end
 
@@ -119,7 +119,7 @@ module Blacklight::Sparql
       facet_config = blacklight_config.facet_fields[facet]
 
       # Now override with our specific things for fetching facet values
-      sparql_parameters[:facet] ||= {}
+      sparql_parameters[:facets] ||= {}
       facet_param = {variable: facet_config.variable}
 
       limit = if scope.respond_to?(:facet_list_limit)
@@ -143,7 +143,7 @@ module Blacklight::Sparql
       facet_param[:sort]   = sort if blacklight_params[request_keys[:sort]]
       facet_param[:prefix] = prefix if blacklight_params[request_keys[:prefix]]
 
-      sparql_parameters[:facet][facet_config.variable] = facet_param
+      sparql_parameters[:facets][facet_config.variable] = facet_param
       sparql_parameters[:rows] = 0
     end
 
