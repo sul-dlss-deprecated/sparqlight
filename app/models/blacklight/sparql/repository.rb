@@ -153,7 +153,8 @@ module Blacklight::Sparql
 
       # Get facet fields
       facet_fields = HashWithIndifferentAccess.new
-      params.fetch(:facets, {}).each do |name, facet|
+      params[:facets] ||= HashWithIndifferentAccess.new
+      params[:facets].each do |name, facet|
         var_sym = facet[:variable].to_s[1..-1].to_sym
         query = prefixes + "\nSELECT #{facet[:variable]} (COUNT(*) as ?__count__)" +
           where + "}\n" +

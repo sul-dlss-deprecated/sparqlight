@@ -153,6 +153,8 @@ GEM
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
       rspec-mocks (~> 3.4.0)
+    rspec-collection_matchers (1.1.2)
+      rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.4.1)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
@@ -239,6 +241,7 @@ DEPENDENCIES
   rdf-mongo
   rdf-turtle (~> 1.99)
   rspec
+  rspec-collection_matchers
   rspec-its
   rspec-rails
   sass-rails (~> 5.0)
