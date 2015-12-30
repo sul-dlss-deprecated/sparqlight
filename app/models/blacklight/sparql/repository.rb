@@ -170,9 +170,10 @@ module Blacklight::Sparql
 
         # FIXME: consider facet prefixes for SPARQL
 
-        facet_fields[name] = send_and_receive(query).map do |soln|
-          [soln[var_sym].object, soln[:__count__].object]
-        end.flatten
+        # Facet field values as Hash
+        facet_fields[name] = send_and_receive(query).inject({}) do |memo, soln|
+          memo.merge(soln[var_sym].object => soln[:__count__].object)
+        end
       end
 
       facet_counts = HashWithIndifferentAccess.new
@@ -184,7 +185,7 @@ module Blacklight::Sparql
         numFound: count,
         document_model: blacklight_config.document_model,
         blacklight_config: blacklight_config
-      }
+      }.with_indifferent_access
       blacklight_config.response_model.new(docs, params, response_opts)
     end
 

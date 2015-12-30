@@ -153,10 +153,10 @@ describe Blacklight::Sparql::Repository do
       it "should have expected facets" do
         expect(response[:facet_counts]).to eq({
           "facet_fields" => {
-            "num_label" => [
-              "Greek Numismatics", 12,
-              "Roman Numismatics", 2
-            ]
+            "num_label" => {
+              "Greek Numismatics" => 12,
+              "Roman Numismatics" => 2
+            }
           }
         })
       end
