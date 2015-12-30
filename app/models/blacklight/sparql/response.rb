@@ -77,6 +77,11 @@ module Blacklight::Sparql
     end
     alias_method :docs, :documents
 
+    # FIXME: No grouping in SPARQL?
+    def grouped?
+      self.has_key? "grouped" # Always false
+    end
+
     def export_formats
       documents.map { |x| x.export_formats.keys }.flatten.uniq
     end
