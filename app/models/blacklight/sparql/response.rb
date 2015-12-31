@@ -24,7 +24,7 @@ module Blacklight::Sparql
     # problems when developing blacklight. Without this, any change
     # to this class breaks other classes in this namespace
     require_dependency 'blacklight/sparql/response/pagination_methods'
-    #require_dependency 'blacklight/sparql/response/spelling'
+    require_dependency 'blacklight/sparql/response/spelling'
     require_dependency 'blacklight/sparql/response/facets'
     #require_dependency 'blacklight/sparql/response/more_like_this'
     #require_dependency 'blacklight/sparql/response/group_response'
@@ -33,7 +33,7 @@ module Blacklight::Sparql
 
     include Response
     include PaginationMethods
-    #include Spelling
+    include Spelling
     include Facets
     #include MoreLikeThis
 
