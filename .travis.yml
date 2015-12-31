@@ -6,7 +6,6 @@ notifications:
   email: false
 env:
   - RAILS_ENV=test
-  - CI=true
 global_env:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
 rvm:
