@@ -174,7 +174,8 @@ module Blacklight::Sparql
 
         # Facet field values as Hash
         facet_fields[name] = send_and_receive(query).inject({}) do |memo, soln|
-          memo.merge(soln[var_sym].object => soln[:__count__].object)
+          memo[soln[var_sym].object] = soln[:__count__].object if soln[var_sym]
+          memo
         end
       end
 
