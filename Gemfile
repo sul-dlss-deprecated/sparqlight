@@ -38,6 +38,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'rspec-its'
+  gem 'rspec-collection_matchers'
 end
 
 group :development do

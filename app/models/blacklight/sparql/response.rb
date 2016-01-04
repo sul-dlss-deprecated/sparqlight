@@ -20,30 +20,27 @@ module Blacklight::Sparql
     #  }
     #}
 
-    # FIXME: to get numFound requires two queries, one with a COUNT, and another with OFFSET/LIMIT
-    # FIXME: facets don't come naturally in response, they should be provided from the repository or document model based on a one-time query. This may require one select per facet to get back the distinct values; not sure if the facet values should be reduced by the query results, though.
-
     # Using required_dependency to work around Rails autoloading
     # problems when developing blacklight. Without this, any change
     # to this class breaks other classes in this namespace
-    #require_dependency 'blacklight/sparql/response/pagination_methods'
-    #require_dependency 'blacklight/sparql/response/spelling'
-    #require_dependency 'blacklight/sparql/response/facets'
+    require_dependency 'blacklight/sparql/response/pagination_methods'
+    require_dependency 'blacklight/sparql/response/spelling'
+    require_dependency 'blacklight/sparql/response/facets'
     #require_dependency 'blacklight/sparql/response/more_like_this'
     #require_dependency 'blacklight/sparql/response/group_response'
     require_dependency 'blacklight/sparql/response/response'
     require_dependency 'blacklight/sparql/response/group'
 
     include Response
-    #include PaginationMethods
-    #include Spelling
-    #include Facets
+    include PaginationMethods
+    include Spelling
+    include Facets
     #include MoreLikeThis
 
     attr_reader :request_params
     attr_accessor :document_model, :blacklight_config
 
-    # @param [Array] docs
+    # @param [Array<Hash>] docs as expanded JSON-LD objects
     # @param [Hash{Symbol => Object}] request_params
     # @param [Hash{Symbol => Object}] options
     # @option options [Integer] :numFound
@@ -79,6 +76,15 @@ module Blacklight::Sparql
       @documents ||= (response['docs'] || []).collect{|doc| document_model.new(doc, self) }
     end
     alias_method :docs, :documents
+
+    # FIXME: No grouping in SPARQL?
+    def grouped?
+      self.has_key? "grouped" # Always false
+    end
+
+    def export_formats
+      documents.map { |x| x.export_formats.keys }.flatten.uniq
+    end
 
     def method_missing(meth, *args)
       $stderr.puts("Call to Response##{meth}")

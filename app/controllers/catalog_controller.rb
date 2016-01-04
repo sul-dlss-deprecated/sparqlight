@@ -42,11 +42,12 @@ class CatalogController < ApplicationController
     #config.per_page = [10,20,50,100]
 
     # Facet fields, may be bound when querying
-    # * field name is predicate or other distinguishing identifier
-    # * variable is the SPARQL variable associated with the field
-    # * patterns (optinal) are SPARQL triple patterns necessary to navigate between `?id` and variable.
-    # * predicate defaults to field name, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
-    # * filter_language set to true, if the configured language should be used as a filter for the variable result if it is a language-tagged literal.
+    # * _field name_ is predicate or other distinguishing identifier
+    # * `label` used for human-readible form label
+    # * `variable` is the SPARQL variable associated with the field
+    # * `patterns` (optional) are SPARQL triple patterns necessary to navigate between `?id` and `variable`. Defaults to a pattern composed of `?id`, `predicate` and `variable`.
+    # * `predicate` defaults to _field name_, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
+    # * `filter_language` set to true, if the configured language should be used as a filter for the variable result if it is a language-tagged literal.
     config.add_facet_field 'num_label',
       :label => 'Numismatics',
       :variable => "?num_lab",
@@ -54,15 +55,23 @@ class CatalogController < ApplicationController
         "?id dcterms:isPartOf ?num",
         "?num a nmo:FieldOfNumismatics",
         "?num skos:prefLabel ?num_lab"
-      ], :filter_language => true
+      ],
+      :filter_language => true
+
+    # Have BL send all facet field names to Sparql, which has been the default
+    # previously. Simply remove these lines if you'd rather use Sparql request
+    # handler defaults, or have no facets.
+    # Note: this is a generic method, not specific to Solr
+    config.add_facet_fields_to_solr_request!
+    config.add_field_configuration_to_solr_request!
 
     # Sparql fields to be displayed in the index (search results) view
     #   The ordering of the field names is the order of the display 
-    # * field name is predicate or other distinguishing identifier
-    # * variable is the SPARQL variable associated with the field
-    # * predicate defaults to field name, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
-    # * patterns (optinal) are SPARQL triple patterns necessary to navigate between `?id` and variable. They default to using the field name as the predicate relating `?id` and the variable. They default to using the field name as the predicate relating `?id` and the variable. These are also used in CONSTRUCT when generating RDF triples to frame
-    # * filter_language set to true, if the configured language should be used as a filter for the variable result if it is a language-tagged literal.
+    # * _field name_ is predicate or other distinguishing identifier
+    # * `variable` is the SPARQL variable associated with the field
+    # * `predicate` defaults to field name, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
+    # * `patterns` (optional) are SPARQL triple patterns necessary to navigate between `?id` and `variable`. They default to using the _field name_ as the predicate relating `?id` and `variable`. These are also used in CONSTRUCT when generating RDF triples to frame.
+    # * `filter_language` set to true, if the configured language should be used as a filter for the variable result if it is a language-tagged literal.
     config.add_index_field 'skos:prefLabel', :label => 'Label', :variable => "?lab", :filter_language => true
     config.add_index_field 'skos:definition', :label => 'Definition', :variable => "?defn", :filter_language => true
     config.add_index_field 'num_label',
@@ -72,9 +81,10 @@ class CatalogController < ApplicationController
         "?id dcterms:isPartOf ?num",
         "?num a nmo:FieldOfNumismatics",
         "?num skos:prefLabel ?num_lab"
-      ], :filter_language => true
+      ],
+      :filter_language => true
 
-    # solr fields to be displayed in the show (single result) view
+    # Sparql fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display 
     config.add_show_field 'skos:prefLabel', :label => 'Label', :variable => "?lab", :filter_language => true
     config.add_show_field 'skos:definition', :label => 'Definition', :variable => "?defn", :filter_language => true
@@ -85,74 +95,30 @@ class CatalogController < ApplicationController
         "?id dcterms:isPartOf ?num",
         "?num a nmo:FieldOfNumismatics",
         "?num skos:prefLabel ?num_lab"
-      ], :filter_language => true
+      ],
+      :filter_language => true
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
     #
-    # Search fields will inherit the :qt solr request handler from
-    # config[:default_solr_parameters], OR can specify a different one
-    # with a :qt key/value. Below examples inherit, except for subject
-    # that specifies the same :qt as default for our own internal
-    # testing purposes.
-    #
-    # The :key is what will be used to identify this BL search field internally,
-    # as well as in URLs -- so changing it after deployment may break bookmarked
-    # urls.  A display label will be automatically calculated from the :key,
-    # or can be specified manually to be different. 
+    # Adds a CONTAINS filter on the specified variable
+    # * `field name` is predicate or other distinguishing identifier
+    # * `variable` is one or more SPARQL variables associated with the fields to search
+    # * `patterns` (optional) are SPARQL triple patterns necessary to filter for matching triples.
+    # * `predicate` defaults to _field name_, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
+    # * `patterns` (optional) are SPARQL triple patterns necessary filter results based on the search term. Defaults to `"FILTER(CONTAINS(%{variable}, '%{term}'))"`, there `%{lab_term}` is substituted in the. where multiple variables are COALESCED
+    config.add_search_field('all_fields') do |field|
+      field.label = 'All Fields'
+      field.default = true
+      field.variable = %w(?lab ?defn ?num_lab)
+      field.patterns = ["FILTER(CONTAINS(COALESCE(?lab, ?defn, ?num_lab), '%{q}'))"]
+    end
 
-    # This one uses all the defaults set by the solr request handler. Which
-    # solr request handler? The one set in config[:default_solr_parameters][:qt],
-    # since we aren't specifying it otherwise. 
-    
-    #config.add_search_field 'all_fields', :label => 'All Fields'
-
-    # Now we see how to over-ride Solr request handler defaults, in this
-    # case for a BL "search field", which is really a dismax aggregate
-    # of Solr search fields. 
-    
-    #config.add_search_field('title') do |field|
-    #  # solr_parameters hash are sent to Solr as ordinary url query params. 
-    #  field.solr_parameters = { :'spellcheck.dictionary' => 'title' }
-    #
-    #  # :solr_local_parameters will be sent using Solr LocalParams
-    #  # syntax, as eg {! qf=$title_qf }. This is neccesary to use
-    #  # Solr parameter de-referencing like $title_qf.
-    #  # See: http://wiki.apache.org/solr/LocalParams
-    #  field.solr_local_parameters = { 
-    #    :qf => '$title_qf',
-    #    :pf => '$title_pf'
-    #  }
-    #end
-
-    # Adds a MATCH filter on the specified variable
-    config.add_search_field('skos:prefLabel') do |field|
+    config.add_search_field('label') do |field|
       field.label = 'Label'
       field.variable = "?lab"
-      field.filter = "FILTER(MATCH(?lab, '%{lab_term}'))"
-      field.term = :lab_term
-      field.filter_language = true
+      field.patterns = ["FILTER(CONTAINS(?lab, '%{q}'))"]
     end
-    
-    #config.add_search_field('author') do |field|
-    #  field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
-    #  field.solr_local_parameters = { 
-    #    :qf => '$author_qf',
-    #    :pf => '$author_pf'
-    #  }
-    #end
-    
-    # Specifying a :qt only to show it's possible, and so our internal automated
-    # tests can test it. In this case it's the same as 
-    # config[:default_solr_parameters][:qt], so isn't actually neccesary. 
-    #config.add_search_field('subject') do |field|
-    #  field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
-    #  field.qt = 'search'
-    #  field.solr_local_parameters = { 
-    #    :qf => '$subject_qf',
-    #    :pf => '$subject_pf'
-    #  }
-    #end
 
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and

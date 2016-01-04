@@ -49,10 +49,17 @@ describe Blacklight::Sparql::Repository do
     end
 
     it "should search variable" do
-      search_params = HashWithIndifferentAccess.new
-      search_params[:search] = {"?lit" => "foo"}
+      search_params = {search: {variable: "?lit", q: "foo"}}.with_indifferent_access
       allow(subject.connection).to receive(:query).and_return(mock_response)
       expect(subject.connection).to receive(:query).with(/FILTER\(CONTAINS\(\?lit, 'foo'\)\)/)
+
+      subject.search(search_params)
+    end
+
+    it "should search multiple variables" do
+      search_params = {search: {variable: %w(?a ?b), q: "foo"}}.with_indifferent_access
+      allow(subject.connection).to receive(:query).and_return(mock_response)
+      expect(subject.connection).to receive(:query).with(/FILTER\(CONTAINS\(COALESCE\(\?a,\?b\), 'foo'\)\)/)
 
       subject.search(search_params)
     end
@@ -146,10 +153,10 @@ describe Blacklight::Sparql::Repository do
       it "should have expected facets" do
         expect(response[:facet_counts]).to eq({
           "facet_fields" => {
-            "num_label" => [
-              "Greek Numismatics", 12,
-              "Roman Numismatics", 2
-            ]
+            "num_label" => {
+              "Greek Numismatics" => 12,
+              "Roman Numismatics" => 2
+            }
           }
         })
       end

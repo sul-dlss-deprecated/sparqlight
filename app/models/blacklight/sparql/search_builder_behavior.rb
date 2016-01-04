@@ -4,7 +4,7 @@ module Blacklight::Sparql
 
     included do
       self.default_processor_chain = [
-        :add_query_to_sparql,
+        :add_query_to_sparql, :add_facet_fq_to_sparql,
         :add_facetting_to_sparql, :add_sparql_fields_to_query, :add_paging_to_sparql,
         :add_sorting_to_sparql, :add_group_config_to_sparql,
         :add_facet_paging_to_sparql
@@ -14,23 +14,50 @@ module Blacklight::Sparql
     ##
     # Take the user-entered query, and put it in the SPARQL params,
     # including config's "search field" params for current search field.
-    # also include setting spellcheck.q.
-    def add_query_to_sparql(sparql_parameters)
-      ###
-      # Merge in search field configured values, if present, over-writing general defaults
+    def add_query_to_sparql sparql_parameters
+      if field = search_field || blacklight_config.default_search_field
+        search_def = {
+          variable: field.variable,
+          patterns: field.patterns
+        }
 
-      if search_field
-        sparql_parameters.merge!(search_field.sparql_parameters) if search_field.sparql_parameters
+        if blacklight_params[:q].is_a? Hash
+          q = blacklight_params[:q]
+          raise "FIXME, translation of Solr search for SPARQL"
+        elsif blacklight_params[:q]
+          # Create search field with variable, pattern and :q
+          search_def.merge!(q: blacklight_params[:q])
+          sparql_parameters[:search] = search_def
+        end
+      end
+    end
+
+    ##
+    # Add any existing facet limits, stored in app-level HTTP query
+    # to Sparql
+    def add_facet_fq_to_sparql sparql_parameters
+
+      # convert a String value into an Array
+      if sparql_parameters[:fq].is_a? String
+        sparql_parameters[:fq] = [sparql_parameters[:fq]]
       end
 
-      ##
-      # Create XXX 'q' including the user-entered q
-      ##
-      if blacklight_params[:q].is_a? Hash
-        q = blacklight_params[:q]
-        raise "FIXME, translation of Solr search for SPARQL"
-      elsif blacklight_params[:q]
-        sparql_parameters[:q] = blacklight_params[:q]
+      # :fq, map from :f.
+      if ( blacklight_params[:f])
+        f_request_params = blacklight_params[:f]
+
+        f_request_params.each_pair do |facet_field, value_list|
+          next unless facet = blacklight_config.facet_fields[facet_field.to_s]
+          sparql_parameters[:facet_values] ||= {}
+          case Array(value_list).length
+          when 0
+          when 1
+            v = Array(value_list).first
+            sparql_parameters[:facet_values][facet.variable] = v unless v.to_s.empty?
+          else
+            sparql_parameters[:facet_values][facet.variable] = value_list
+          end
+        end
       end
     end
 
@@ -38,31 +65,29 @@ module Blacklight::Sparql
     # Add appropriate SPARQL facetting filters.
     def add_facetting_to_sparql sparql_parameters
       facet_fields_to_include_in_request.each do |field_name, facet|
-        sparql_parameters[:facet] ||= true
+        sparql_parameters[:facets] ||= {}
+        facet_param = {variable: facet.variable}
 
-        case
-          when facet.pivot
-            raise "FIXME: SPARQL pivot?"
-            #sparql_parameters.append_facet_pivot facet.pivot.join(",")
-          when facet.query
-            sparql_parameters.append_facet_query facet.query.map { |k, x| x[:fq] }
-          else
-            sparql_parameters.append_facet_fields facet.field
-        end
-
-        if facet.sort
-          sparql_parameters[:sort] = facet.sort
-        end
+        facet_param[:sort] = facet.sort if facet.sort
 
         # Support facet paging and 'more'
         # links, by sending a facet.limit one more than what we
         # want to page at, according to configured facet limits.
-        sparql_parameters[:limit] = (facet_limit_for(field_name) + 1) if facet_limit_for(field_name)
+        facet_param[:limit] = (facet_limit_for(field_name) + 1) if facet_limit_for(field_name)
+
+        # FIXME: no support for Facet queries just yet
+        #sparql_parameters.append_facet_query facet.query.map { |k, x| x[:fq] }
+        sparql_parameters[:facets][facet.variable] = facet_param
       end
     end
 
     def add_sparql_fields_to_query sparql_parameters
-      sparql_parameters[:show_fields] = blacklight_config.show_fields.select(&method(:should_add_field_to_request?)).values
+      fields = blacklight_config.show_fields.select(&method(:should_add_field_to_request?))
+
+      blacklight_config.index_fields.select(&method(:should_add_field_to_request?)).each do |key, field|
+        fields[key] || field
+      end
+      sparql_parameters[:fields] = fields.values
     end
 
     ###
@@ -97,7 +122,8 @@ module Blacklight::Sparql
       facet_config = blacklight_config.facet_fields[facet]
 
       # Now override with our specific things for fetching facet values
-      sparql_parameters[:"facet.field"] = facet
+      sparql_parameters[:facets] ||= {}
+      facet_param = {variable: facet_config.variable}
 
       limit = if scope.respond_to?(:facet_list_limit)
                 scope.facet_list_limit.to_s.to_i
@@ -115,20 +141,34 @@ module Blacklight::Sparql
 
       # Need to set as f.facet_field.facet.*  to make sure we
       # override any field-specific default in the solr request handler.
-      sparql_parameters[:"f.#{facet}.facet.limit"] = limit + 1
-      sparql_parameters[:"f.#{facet}.facet.offset"] = offset
-      if blacklight_params[request_keys[:sort]]
-        sparql_parameters[:"f.#{facet}.facet.sort"] = sort
-      end
-      if blacklight_params[request_keys[:prefix]]
-        sparql_parameters[:"f.#{facet}.facet.prefix"] = prefix
-      end
+      facet_param[:limit]  = limit
+      facet_param[:offset] = offset
+      facet_param[:sort]   = sort if blacklight_params[request_keys[:sort]]
+      facet_param[:prefix] = prefix if blacklight_params[request_keys[:prefix]]
+
+      sparql_parameters[:facets][facet_config.variable] = facet_param
       sparql_parameters[:rows] = 0
     end
 
+    # Look up facet limit for given facet_field. Will look at config, and
+    # if config is 'true' will look up from Solr @response if available. If
+    # no limit is avaialble, returns nil. Used from #add_facetting_to_solr
+    # to supply f.fieldname.facet.limit values in solr request (no @response
+    # available), and used in display (with @response available) to create
+    # a facet paginator with the right limit.
+    def facet_limit_for(facet_field)
+      facet = blacklight_config.facet_fields[facet_field]
+      return if facet.blank?
+
+      if facet.limit
+        facet.limit == true ? blacklight_config.default_facet_limit : facet.limit
+      end
+    end
+
+    # FIXME: we should create an alias of add_facet_fields_to_solr_request to add_facet_fields_to_sparql_request
     def facet_fields_to_include_in_request
       blacklight_config.facet_fields.select do |field_name,facet|
-        facet.include_in_request || (facet.include_in_request.nil? && blacklight_config.add_facet_fields_to_sparql_request)
+        facet.include_in_request || (facet.include_in_request.nil? && blacklight_config.add_facet_fields_to_solr_request)
       end
     end
 
