@@ -95,9 +95,9 @@ module Blacklight::Sparql
         where += case value
         when Array
           values = value.map {|v| "'#{v}'"}.join(', ')
-          "  FILTER(#{variable} IN(#{values}))\n"
+          "  FILTER(STR(#{variable}) IN(#{values}))\n"
         when String
-          "  FILTER(#{variable} = '#{value}')\n"
+          "  FILTER(STR(#{variable}) = '#{value}')\n"
         else
           ""
         end

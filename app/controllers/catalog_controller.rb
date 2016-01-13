@@ -122,7 +122,7 @@ class CatalogController < ApplicationController
     config.add_search_field('label') do |field|
       field.label = 'Label'
       field.variable = "?lab"
-      field.patterns = ["FILTER(CONTAINS(?lab, '%{q}'))"]
+      field.patterns = ["FILTER(CONTAINS(STR(?lab), '%{q}'))"]
     end
 
     # "sort results by" select (pulldown)

@@ -68,7 +68,7 @@ describe Blacklight::Sparql::Repository do
       search_params = HashWithIndifferentAccess.new
       search_params[:facet_values] = {"?lit" => "foo"}
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/FILTER\(\?lit = 'foo'\)/)
+      expect(subject.connection).to receive(:query).with(/FILTER\(STR\(\?lit\) = 'foo'\)/)
 
       subject.search(search_params)
     end
@@ -77,7 +77,7 @@ describe Blacklight::Sparql::Repository do
       search_params = HashWithIndifferentAccess.new
       search_params[:facet_values] = {"?lit" => %w(foo bar)}
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/FILTER\(\?lit IN\('foo', 'bar'\)\)/)
+      expect(subject.connection).to receive(:query).with(/FILTER\(STR\(\?lit\) IN\('foo', 'bar'\)\)/)
 
       subject.search(search_params)
     end
