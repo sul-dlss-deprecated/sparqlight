@@ -5,4 +5,6 @@ class SparqlDocument
   require_dependency 'blacklight/sparql'
 
   include Blacklight::Sparql::Document
+
+  self.unique_key = '@id'
 end
