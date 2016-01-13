@@ -49,6 +49,7 @@ class CatalogController < ApplicationController
     # * `predicate` defaults to _field name_, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
     # * `filter_language` set to true, if the configured language should be used as a filter for the variable result if it is a language-tagged literal.
     config.add_facet_field 'num_label',
+      field: '?num_lab',
       :label => 'Numismatics',
       :variable => "?num_lab",
       :patterns => [
@@ -75,6 +76,8 @@ class CatalogController < ApplicationController
     config.add_index_field 'skos:prefLabel', :label => 'Label', :variable => "?lab", :filter_language => true
     config.add_index_field 'skos:definition', :label => 'Definition', :variable => "?defn", :filter_language => true
     config.add_index_field 'num_label',
+      field: 'dcterms:isPartOf',
+      helper_method: 'render_numismatics',
       :label => 'Numismatics',
       :variable => "?num_lab",
       :patterns => [
@@ -89,6 +92,8 @@ class CatalogController < ApplicationController
     config.add_show_field 'skos:prefLabel', :label => 'Label', :variable => "?lab", :filter_language => true
     config.add_show_field 'skos:definition', :label => 'Definition', :variable => "?defn", :filter_language => true
     config.add_show_field 'num_label',
+      field: 'dcterms:isPartOf',
+      helper_method: 'render_numismatics',
       :label => 'Numismatics',
       :variable => "?num_lab",
       :patterns => [
