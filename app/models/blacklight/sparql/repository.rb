@@ -74,7 +74,7 @@ module Blacklight::Sparql
       # Add search terms
       # FIXME escape filter values
       # FIXME non-string values?
-      if search_field = params[:search]
+      if params.fetch(:search, {})[:q].present? && search_field = params[:search]
         patterns = search_field[:patterns]
         patterns ||= case search_field[:variable]
         when Array
