@@ -30,7 +30,9 @@ class CatalogController < ApplicationController
       "@context": {
         "nmo": "http://nomisma.org/ontology#",
         "skos": "http://www.w3.org/2004/02/skos/core#",
-        "dcterms": "http://purl.org/dc/terms/"
+        "dcterms": "http://purl.org/dc/terms/",
+        "skos:prefLabel": {"@language": "en"},
+        "skos:definition": {"@language": "en"}
       },
       "@type": "nmo:Denomination",
       "dcterms:isPartOf": {
