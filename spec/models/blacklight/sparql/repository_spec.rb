@@ -56,6 +56,14 @@ describe Blacklight::Sparql::Repository do
       subject.search(search_params)
     end
 
+    it "should not search variable with empty value" do
+      search_params = {search: {variable: "?lit", q: ""}}.with_indifferent_access
+      allow(subject.connection).to receive(:query).and_return(mock_response)
+      expect(subject.connection).not_to receive(:query).with(/FILTER\(CONTAINS\(\?lit, ''\)\)/)
+
+      subject.search(search_params)
+    end
+
     it "should search multiple variables" do
       search_params = {search: {variable: %w(?a ?b), q: "foo"}}.with_indifferent_access
       allow(subject.connection).to receive(:query).and_return(mock_response)
