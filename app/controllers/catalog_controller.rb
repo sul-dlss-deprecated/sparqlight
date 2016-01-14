@@ -113,12 +113,12 @@ class CatalogController < ApplicationController
     # * `variable` is one or more SPARQL variables associated with the fields to search
     # * `patterns` (optional) are SPARQL triple patterns necessary to filter for matching triples.
     # * `predicate` defaults to _field name_, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
-    # * `patterns` (optional) are SPARQL triple patterns necessary filter results based on the search term. Defaults to `"FILTER(CONTAINS(%{variable}, '%{term}'))"`, there `%{lab_term}` is substituted in the. where multiple variables are COALESCED
+    # * `patterns` (optional) are SPARQL triple patterns necessary filter results based on the search term. Defaults to `"FILTER(CONTAINS(%{variable}, '%{term}'))"`, there `%{lab_term}` is substituted in the. where multiple variables are CONCATenated
     config.add_search_field('all_fields') do |field|
       field.label = 'All Fields'
       field.default = true
       field.variable = %w(?lab ?defn ?num_lab)
-      field.patterns = ["FILTER(CONTAINS(COALESCE(?lab, ?defn, ?num_lab), '%{q}'))"]
+      field.patterns = ["FILTER(CONTAINS(STR(CONCAT(?lab, ?defn, ?num_lab)), '%{q}'))"]
     end
 
     config.add_search_field('label') do |field|

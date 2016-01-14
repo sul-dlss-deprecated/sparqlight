@@ -51,7 +51,7 @@ describe Blacklight::Sparql::Repository do
     it "should search variable" do
       search_params = {search: {variable: "?lit", q: "foo"}}.with_indifferent_access
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/FILTER\(CONTAINS\(\?lit, 'foo'\)\)/)
+      expect(subject.connection).to receive(:query).with(/FILTER\(CONTAINS\(STR\(\?lit\), 'foo'\)\)/)
 
       subject.search(search_params)
     end
@@ -59,7 +59,7 @@ describe Blacklight::Sparql::Repository do
     it "should not search variable with empty value" do
       search_params = {search: {variable: "?lit", q: ""}}.with_indifferent_access
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).not_to receive(:query).with(/FILTER\(CONTAINS\(\?lit, ''\)\)/)
+      expect(subject.connection).not_to receive(:query).with(/FILTER\(CONTAINS\(STR\(\?lit\), ''\)\)/)
 
       subject.search(search_params)
     end
@@ -67,7 +67,7 @@ describe Blacklight::Sparql::Repository do
     it "should search multiple variables" do
       search_params = {search: {variable: %w(?a ?b), q: "foo"}}.with_indifferent_access
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/FILTER\(CONTAINS\(COALESCE\(\?a,\?b\), 'foo'\)\)/)
+      expect(subject.connection).to receive(:query).with(/FILTER\(CONTAINS\(STR\(CONCAT\(\?a,\?b\)\), 'foo'\)\)/)
 
       subject.search(search_params)
     end
