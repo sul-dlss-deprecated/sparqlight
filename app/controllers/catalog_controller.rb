@@ -30,7 +30,9 @@ class CatalogController < ApplicationController
       "@context": {
         "nmo": "http://nomisma.org/ontology#",
         "skos": "http://www.w3.org/2004/02/skos/core#",
-        "dcterms": "http://purl.org/dc/terms/"
+        "dcterms": "http://purl.org/dc/terms/",
+        "skos:prefLabel": {"@language": "en"},
+        "skos:definition": {"@language": "en"}
       },
       "@type": "nmo:Denomination",
       "dcterms:isPartOf": {
@@ -49,6 +51,7 @@ class CatalogController < ApplicationController
     # * `predicate` defaults to _field name_, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
     # * `filter_language` set to true, if the configured language should be used as a filter for the variable result if it is a language-tagged literal.
     config.add_facet_field 'num_label',
+      field: '?num_lab',
       :label => 'Numismatics',
       :variable => "?num_lab",
       :patterns => [
@@ -75,6 +78,8 @@ class CatalogController < ApplicationController
     config.add_index_field 'skos:prefLabel', :label => 'Label', :variable => "?lab", :filter_language => true
     config.add_index_field 'skos:definition', :label => 'Definition', :variable => "?defn", :filter_language => true
     config.add_index_field 'num_label',
+      field: 'dcterms:isPartOf',
+      helper_method: 'render_numismatics',
       :label => 'Numismatics',
       :variable => "?num_lab",
       :patterns => [
@@ -89,6 +94,8 @@ class CatalogController < ApplicationController
     config.add_show_field 'skos:prefLabel', :label => 'Label', :variable => "?lab", :filter_language => true
     config.add_show_field 'skos:definition', :label => 'Definition', :variable => "?defn", :filter_language => true
     config.add_show_field 'num_label',
+      field: 'dcterms:isPartOf',
+      helper_method: 'render_numismatics',
       :label => 'Numismatics',
       :variable => "?num_lab",
       :patterns => [
@@ -106,18 +113,18 @@ class CatalogController < ApplicationController
     # * `variable` is one or more SPARQL variables associated with the fields to search
     # * `patterns` (optional) are SPARQL triple patterns necessary to filter for matching triples.
     # * `predicate` defaults to _field name_, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
-    # * `patterns` (optional) are SPARQL triple patterns necessary filter results based on the search term. Defaults to `"FILTER(CONTAINS(%{variable}, '%{term}'))"`, there `%{lab_term}` is substituted in the. where multiple variables are COALESCED
+    # * `patterns` (optional) are SPARQL triple patterns necessary filter results based on the search term. Defaults to `"FILTER(CONTAINS(%{variable}, '%{term}'))"`, there `%{lab_term}` is substituted in the. where multiple variables are CONCATenated
     config.add_search_field('all_fields') do |field|
       field.label = 'All Fields'
       field.default = true
       field.variable = %w(?lab ?defn ?num_lab)
-      field.patterns = ["FILTER(CONTAINS(COALESCE(?lab, ?defn, ?num_lab), '%{q}'))"]
+      field.patterns = ["FILTER(CONTAINS(STR(CONCAT(?lab, ?defn, ?num_lab)), '%{q}'))"]
     end
 
     config.add_search_field('label') do |field|
       field.label = 'Label'
       field.variable = "?lab"
-      field.patterns = ["FILTER(CONTAINS(?lab, '%{q}'))"]
+      field.patterns = ["FILTER(CONTAINS(STR(?lab), '%{q}'))"]
     end
 
     # "sort results by" select (pulldown)

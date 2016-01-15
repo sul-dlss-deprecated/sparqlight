@@ -74,15 +74,15 @@ module Blacklight::Sparql
       # Add search terms
       # FIXME escape filter values
       # FIXME non-string values?
-      if search_field = params[:search]
+      if params.fetch(:search, {})[:q].present? && search_field = params[:search]
         patterns = search_field[:patterns]
         patterns ||= case search_field[:variable]
         when Array
-          ["FILTER(CONTAINS(COALESCE(#{search_field[:variable].join(',')}), '%{q}'))"]
+          ["FILTER(CONTAINS(STR(CONCAT(#{search_field[:variable].join(',')})), '%{q}'))"]
         when nil
           raise "repository search requires patterns or variable"
         else
-          ["FILTER(CONTAINS(#{search_field[:variable]}, '%{q}'))"]
+          ["FILTER(CONTAINS(STR(#{search_field[:variable]}), '%{q}'))"]
         end
         patterns.each do |pattern|
           where += pattern % {q: search_field[:q]}
@@ -95,9 +95,9 @@ module Blacklight::Sparql
         where += case value
         when Array
           values = value.map {|v| "'#{v}'"}.join(', ')
-          "  FILTER(#{variable} IN(#{values}))\n"
+          "  FILTER(STR(#{variable}) IN(#{values}))\n"
         when String
-          "  FILTER(#{variable} = '#{value}')\n"
+          "  FILTER(STR(#{variable}) = '#{value}')\n"
         else
           ""
         end
