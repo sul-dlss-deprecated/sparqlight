@@ -62,7 +62,7 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
         expect(subject[:search_field]).to be_nil
       end
 
-      it "should add in extra facet.field from params", pending: "Does this make sense for SPARQL; facets need to be configured" do
+      it "should add in extra facet.field from params", skip: "Does this make sense for SPARQL; facets need to be configured" do
         expect(subject[:"facet.field"]).to include("extra_facet")
       end
     end
@@ -88,7 +88,7 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
       end
     end
 
-    it "should generate a facet limit", pending: "Don't understand where this would come from for SPARQL" do
+    it "should generate a facet limit", pending: "For facet value paging" do
       expect(subject[:"f.subject_topic_facet.facet.limit"]).to eq 21
     end
 
@@ -247,7 +247,7 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
       end
     end
 
-    describe "mapping facet.field", pending: "Doesn't make sense for SPARQL" do
+    describe "mapping facet.field", skip: "Doesn't make sense for SPARQL" do
       let(:blacklight_config) do
         Blacklight::Configuration.new do |config|
           config.add_facet_field 'some_field'
@@ -301,7 +301,7 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
       sparql_parameters
     end
 
-    it "should add any extra sparql parameters from index and show fields", pending: "arcane field configuration issues" do
+    it "should add any extra sparql parameters from index and show fields", skip: "arcane field configuration issues" do
       expect(sparql_parameters).to include("fields")
       expect(sparql_parameters[:fields].map(&:variable)).to match_array(%w(?index ?show))
     end
