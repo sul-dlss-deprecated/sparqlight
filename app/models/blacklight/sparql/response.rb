@@ -77,9 +77,9 @@ module Blacklight::Sparql
     end
     alias_method :docs, :documents
 
-    # FIXME: No grouping in SPARQL?
+    # SPARQL doesn't support grouping like Solr.
     def grouped?
-      self.has_key? "grouped" # Always false
+      false
     end
 
     def export_formats

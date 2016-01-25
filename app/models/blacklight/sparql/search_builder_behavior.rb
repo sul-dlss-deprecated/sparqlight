@@ -75,8 +75,6 @@ module Blacklight::Sparql
         # want to page at, according to configured facet limits.
         facet_param[:limit] = (facet_limit_for(field_name) + 1) if facet_limit_for(field_name)
 
-        # FIXME: no support for Facet queries just yet
-        #sparql_parameters.append_facet_query facet.query.map { |k, x| x[:fq] }
         sparql_parameters[:facets][facet.variable] = facet_param
       end
     end

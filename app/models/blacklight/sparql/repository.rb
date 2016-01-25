@@ -67,6 +67,7 @@ module Blacklight::Sparql
 
       # Add Lanaugage filters
       # FIXME: not 'en', but configured language, defaulting to 'en'
+      # HINT: use Rails I18N.locale
       fields.select(&:filter_language).each do |field|
         where += "  FILTER(langMatches(LANG(#{field.variable}), 'en'))\n"
       end
@@ -132,8 +133,6 @@ module Blacklight::Sparql
           "LIMIT #{params.fetch(:rows, 10).to_i}\n"
         query += "OFFSET #{params[:start]}" if params[:start].to_i > 0
 
-        # FIXME: ordering
-
         ids = send_and_receive(query).map(&:id)
 
         # FIXME: if we used a sub-select, this could be done in a single query
@@ -180,7 +179,6 @@ module Blacklight::Sparql
       end
 
       facet_counts = HashWithIndifferentAccess.new
-      # FIXME: where would facet_queries come from?
       facet_counts[:facet_fields] = facet_fields
 
       response_opts = {
