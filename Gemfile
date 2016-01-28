@@ -49,7 +49,7 @@ group :development do
   gem 'spring'
 end
 
-gem 'blacklight', '6.0.0.pre4'
+gem 'blacklight', '6.0.1'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 
 # RDF/SPARQL
