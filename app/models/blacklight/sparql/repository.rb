@@ -40,6 +40,7 @@ module Blacklight::Sparql
     # @return [Blacklight::Solr::Response] the SPARQL response object
     def search params = {}
       params = params.to_hash unless params.is_a?(Hash)
+      params[:facets] ||= HashWithIndifferentAccess.new
       # Document query with a restriction on
       # Build query using defined prefixes, id, and index fields
       fields = params.fetch(:fields, blacklight_config.index_fields.values)
@@ -104,6 +105,13 @@ module Blacklight::Sparql
         end
       end
 
+      # Add facet prefixes
+      # FIXME escape filter values
+      params[:facets].each do |variable, facet|
+        next if facet[:prefix].blank?
+        where += "  FILTER(STRSTARTS(STR(#{variable}), '#{facet[:prefix]}'))"
+      end
+
       # Get record count
       count = case
       when params[:rows] == 0 then 0
@@ -153,7 +161,6 @@ module Blacklight::Sparql
 
       # Get facet fields
       facet_fields = HashWithIndifferentAccess.new
-      params[:facets] ||= HashWithIndifferentAccess.new
       params[:facets].each do |name, facet|
         var_sym = facet[:variable].to_s[1..-1].to_sym
         query = prefixes + "\nSELECT #{facet[:variable]} (COUNT(*) as ?__count__)" +
@@ -168,8 +175,6 @@ module Blacklight::Sparql
         else
           "ORDER BY #{facet[:variable]}\n"
         end
-
-        # FIXME: consider facet prefixes for SPARQL
 
         # Facet field values as Hash
         facet_fields[name] = send_and_receive(query).inject({}) do |memo, soln|
