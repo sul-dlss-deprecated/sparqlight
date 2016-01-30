@@ -61,10 +61,6 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
       it "should not put :search_field in produced params" do
         expect(subject[:search_field]).to be_nil
       end
-
-      it "should add in extra facet.field from params", skip: "Does this make sense for SPARQL; facets need to be configured" do
-        expect(subject[:"facet.field"]).to include("extra_facet")
-      end
     end
   end
 
@@ -73,19 +69,6 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
 
     subject do
       search_builder.with(user_params).processed_parameters
-    end
-
-    context "when search_params_logic is customized", skip: "This doesn't seem relevant for SPARQL, as it's BL logic" do
-      let(:search_builder) { search_builder_class.new(method_chain, context) }
-      let(:method_chain) { [:add_foo_to_sparql_params] }
-
-      it "allows customization of search_params_logic" do
-          allow(search_builder).to receive(:add_foo_to_sparql_params) do |sparql_params, user_params|
-            sparql_params[:wt] = "TESTING"
-          end
-
-          expect(subject[:wt]).to eq "TESTING"
-      end
     end
 
     context "facet paging" do
@@ -265,41 +248,6 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
         end
       end
     end
-
-    describe "mapping facet.field", skip: "Doesn't make sense for SPARQL" do
-      let(:blacklight_config) do
-        Blacklight::Configuration.new do |config|
-          config.add_facet_field 'some_field'
-          config.add_facet_fields_to_solr_request!
-        end
-      end
-
-      context "user provides a single facet.field" do
-        let(:user_params) { { "facet.field" => "additional_facet" } }
-        it "adds the field" do
-          expect(subject[:"facet.field"]).to include("additional_facet")
-          expect(subject[:"facet.field"]).to have(2).fields
-        end
-      end
-
-      context "user provides a multiple facet.field" do
-        let(:user_params) { { "facet.field" => ["add_facet1", "add_facet2"] } }
-        it "adds the fields" do
-          expect(subject[:"facet.field"]).to include("add_facet1")
-          expect(subject[:"facet.field"]).to include("add_facet2")
-          expect(subject[:"facet.field"]).to have(3).fields
-        end
-      end
-
-      context "user provides a multiple facets" do
-        let(:user_params) { { "facets" => ["add_facet1", "add_facet2"] } }
-        it "adds the fields" do
-          expect(subject[:"facet.field"]).to include("add_facet1")
-          expect(subject[:"facet.field"]).to include("add_facet2")
-          expect(subject[:"facet.field"]).to have(3).fields
-        end
-      end
-    end
   end
 
   
@@ -351,15 +299,6 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
 
     it "should add sort parameters" do
       expect(sparql_parameters[:facets]).to include({"?some" => {"variable" => "?some"}})
-    end
-
-    it "should add facet exclusions", skip: "Not for SPARQL" do
-      expect(sparql_parameters[:'facet.query']).to include('{!ex=xyz}some:query')
-      expect(sparql_parameters[:'facet.pivot']).to include('{!ex=xyz}a,b')
-    end
-
-    it "should add any additional sparql_params", skip: "Not for SPARQL" do
-      expect(sparql_parameters[:'f.some-field.facet.mincount']).to eq 15
     end
 
     describe ":include_in_request" do
