@@ -111,73 +111,10 @@ describe Blacklight::Sparql::Response do
     expect(r.params['test']).to eq :test
   end
 
-  it 'should provide the solr-returned params and "rows" should be 11', skip: "Not for SPARQL" do
-    raw_response = eval(mock_query_response)
-    r = Blacklight::Sparql::Response.new(raw_response, {})
-    expect(r.params[:rows].to_s).to eq '11'
-    expect(r.params[:sort]).to eq 'title_sort asc, pub_date_sort desc'
-  end
-
   it 'should provide the ruby request params if responseHeader["params"] does not exist' do
     r = Blacklight::Sparql::Response.new([], :rows => 999, :sort => 'score desc, pub_date_sort desc, title_sort asc')
     expect(r.params[:rows].to_s).to eq '999'
     expect(r.params[:sort]).to eq 'score desc, pub_date_sort desc, title_sort asc'
-  end
-
-  it 'should provide spelling suggestions for regular spellcheck results', skip: "No spellcheck with SPARQL" do
-    raw_response = eval(mock_response_with_spellcheck)
-    r = Blacklight::Solr::Response.new(raw_response,  {})
-    expect(r.spelling.words).to include("dell")
-    expect(r.spelling.words).to include("ultrasharp")
-  end
-
-  it 'should provide spelling suggestions for extended spellcheck results', skip: "No spellcheck with SPARQL" do
-    raw_response = eval(mock_response_with_spellcheck_extended)
-    r = Blacklight::Solr::Response.new(raw_response, {})
-    expect(r.spelling.words).to include("dell")
-    expect(r.spelling.words).to include("ultrasharp")
-  end
-
-  it 'should provide no spelling suggestions when extended results and suggestion frequency is the same as original query frequency', skip: "No spellcheck with SPARQL" do
-    raw_response = eval(mock_response_with_spellcheck_same_frequency)
-    r = Blacklight::Solr::Response.new(raw_response, {})
-    expect(r.spelling.words).to eq []
-  end
-
-  context "pre solr 5 spellcheck collation syntax", skip: "No spellcheck with SPARQL" do
-    it 'should provide spelling suggestions for a regular spellcheck results with a collation' do
-      raw_response = eval(mock_response_with_spellcheck_collation)
-      r = Blacklight::Solr::Response.new(raw_response, {})
-      expect(r.spelling.words).to include("dell")
-      expect(r.spelling.words).to include("ultrasharp")
-    end
-
-    it 'should provide spelling suggestion collation' do
-      raw_response = eval(mock_response_with_spellcheck_collation)
-      r = Blacklight::Solr::Response.new(raw_response, {})
-      expect(r.spelling.collation).to eq 'dell ultrasharp'
-    end
-  end
-
-  context "solr 5 spellcheck collation syntax", skip: "No spellcheck with SPARQL" do
-    it 'should provide spelling suggestions for a regular spellcheck results with a collation' do
-      raw_response = eval(mock_response_with_spellcheck_collation_solr5)
-      r = Blacklight::Solr::Response.new(raw_response, {})
-      expect(r.spelling.words).to include("dell")
-      expect(r.spelling.words).to include("ultrasharp")
-    end
-
-    it 'should provide spelling suggestion collation' do
-      raw_response = eval(mock_response_with_spellcheck_collation_solr5)
-      r = Blacklight::Solr::Response.new(raw_response, {})
-      expect(r.spelling.collation).to eq 'dell ultrasharp'
-    end
-  end
-
-  it "should provide MoreLikeThis suggestions", skip: "No MoreLikeThis with SPARQL" do
-    raw_response = eval(mock_response_with_more_like_this)
-    r = Blacklight::Sparql::Response.new(raw_response, {})
-    expect(r.more_like(double(:id => '79930185'))).to have(2).items
   end
 
   it "should be empty when the response has no results" do

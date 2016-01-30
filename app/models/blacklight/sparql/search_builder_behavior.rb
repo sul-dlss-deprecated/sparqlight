@@ -121,7 +121,8 @@ module Blacklight::Sparql
 
       # Now override with our specific things for fetching facet values
       sparql_parameters[:facets] ||= {}
-      facet_param = {variable: facet_config.variable}
+      sparql_parameters[:facets][facet_config.variable] ||= {variable: facet_config.variable}
+      facet_param = sparql_parameters[:facets][facet_config.variable]
 
       limit = if scope.respond_to?(:facet_list_limit)
                 scope.facet_list_limit.to_s.to_i
@@ -144,13 +145,12 @@ module Blacklight::Sparql
       facet_param[:sort]   = sort if blacklight_params[request_keys[:sort]]
       facet_param[:prefix] = prefix if blacklight_params[request_keys[:prefix]]
 
-      sparql_parameters[:facets][facet_config.variable] = facet_param
       sparql_parameters[:rows] = 0
     end
 
     # Look up facet limit for given facet_field. Will look at config, and
     # if config is 'true' will look up from Solr @response if available. If
-    # no limit is avaialble, returns nil. Used from #add_facetting_to_solr
+    # no limit is avaialble, returns nil. Used from #add_facetting_to_sparql
     # to supply f.fieldname.facet.limit values in solr request (no @response
     # available), and used in display (with @response available) to create
     # a facet paginator with the right limit.

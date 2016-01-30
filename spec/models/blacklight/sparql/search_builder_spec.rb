@@ -45,7 +45,7 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
     subject { search_builder.with(user_params).processed_parameters }
 
     let(:user_params) do
-      {:search_field => "test_field", :q => "test query", "facet.field" => "extra_facet"}
+      {search_field: "test_field", q: "test query", "facet.field" => "extra_facet"}
     end
 
     let(:blacklight_config) do
@@ -61,10 +61,6 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
       it "should not put :search_field in produced params" do
         expect(subject[:search_field]).to be_nil
       end
-
-      it "should add in extra facet.field from params", skip: "Does this make sense for SPARQL; facets need to be configured" do
-        expect(subject[:"facet.field"]).to include("extra_facet")
-      end
     end
   end
 
@@ -75,27 +71,33 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
       search_builder.with(user_params).processed_parameters
     end
 
-    context "when search_params_logic is customized", skip: "This doesn't seem relevant for SPARQL, as it's BL logic" do
-      let(:search_builder) { search_builder_class.new(method_chain, context) }
-      let(:method_chain) { [:add_foo_to_sparql_params] }
+    context "facet paging" do
+      let(:blacklight_config) do
+        Blacklight::Configuration.new.tap do |config|
+          config.add_facet_field 'subject_topic_facet',
+            label: 'Topic',
+            variable: "?topic",
+            limit: 20,
+            index_range: 'A'..'Z'
+          config.add_facet_fields_to_solr_request!
+        end
+      end
 
-      it "allows customization of search_params_logic" do
-          allow(search_builder).to receive(:add_foo_to_sparql_params) do |sparql_params, user_params|
-            sparql_params[:wt] = "TESTING"
-          end
+      it "should have ?topic facet" do
+        expect(subject[:facets]).to have_key("?topic")
+        expect(subject[:facets]).to be_a(Hash)
+      end
 
-          expect(subject[:wt]).to eq "TESTING"
+      it "should generate a facet limit" do
+        expect(subject.fetch(:facets, {}).fetch("?topic", {})).to include(limit: 21)
+      end
+
+      it "should handle no facet_limits in config" do
+        blacklight_config.facet_fields = {}
+        expect(subject.fetch(:facets, {}).fetch("?topic", {})).not_to include(limit: 21)
       end
     end
 
-    it "should generate a facet limit", pending: "For facet value paging" do
-      expect(subject[:"f.subject_topic_facet.facet.limit"]).to eq 21
-    end
-
-    it "should handle no facet_limits in config" do
-      blacklight_config.facet_fields = {}
-      expect(subject).not_to have_key(:"f.subject_topic_facet.facet.limit")
-    end
 
     describe "with max per page enforced" do
       let(:blacklight_config) do
@@ -151,8 +153,8 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
       let(:blacklight_config) do
         Blacklight::Configuration.new.tap do |config|
           config.add_facet_field 'format',
-            :label => 'Format',
-            :variable => "?format"
+            label:    'Format',
+            variable: "?format"
         end
       end
       it "should have proper sparql parameters" do
@@ -170,8 +172,8 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
       let(:blacklight_config) do
         Blacklight::Configuration.new.tap do |config|
           config.add_facet_field 'format',
-            :label => 'Format',
-            :variable => "?format"
+            label:    'Format',
+            variable: "?format"
         end
       end
       it "should not add any facet_values to sparql" do
@@ -234,7 +236,7 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
 
       it "should not send a sort parameter to sparql if the sort value is blank" do
         blacklight_config.sort_fields = {}
-        blacklight_config.add_sort_field('', :label => 'test')
+        blacklight_config.add_sort_field('', label: 'test')
 
         expect(subject).not_to have_key(:sort)
       end
@@ -246,49 +248,14 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
         end
       end
     end
-
-    describe "mapping facet.field", skip: "Doesn't make sense for SPARQL" do
-      let(:blacklight_config) do
-        Blacklight::Configuration.new do |config|
-          config.add_facet_field 'some_field'
-          config.add_facet_fields_to_solr_request!
-        end
-      end
-
-      context "user provides a single facet.field" do
-        let(:user_params) { { "facet.field" => "additional_facet" } }
-        it "adds the field" do
-          expect(subject[:"facet.field"]).to include("additional_facet")
-          expect(subject[:"facet.field"]).to have(2).fields
-        end
-      end
-
-      context "user provides a multiple facet.field" do
-        let(:user_params) { { "facet.field" => ["add_facet1", "add_facet2"] } }
-        it "adds the fields" do
-          expect(subject[:"facet.field"]).to include("add_facet1")
-          expect(subject[:"facet.field"]).to include("add_facet2")
-          expect(subject[:"facet.field"]).to have(3).fields
-        end
-      end
-
-      context "user provides a multiple facets" do
-        let(:user_params) { { "facets" => ["add_facet1", "add_facet2"] } }
-        it "adds the fields" do
-          expect(subject[:"facet.field"]).to include("add_facet1")
-          expect(subject[:"facet.field"]).to include("add_facet2")
-          expect(subject[:"facet.field"]).to have(3).fields
-        end
-      end
-    end
   end
 
   
   describe "#add_sparql_fields_to_query" do
     let(:blacklight_config) do
       Blacklight::Configuration.new do |config|
-        config.add_index_field 'an_index_field', :variable => "?index"
-        config.add_show_field 'a_show_field', :variable => "?show"
+        config.add_index_field 'an_index_field', variable: "?index"
+        config.add_show_field 'a_show_field', variable: "?show"
         config.add_field_configuration_to_solr_request!
       end
     end
@@ -301,7 +268,7 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
       sparql_parameters
     end
 
-    it "should add any extra sparql parameters from index and show fields", skip: "arcane field configuration issues" do
+    it "should add any extra sparql parameters from index and show fields", pending: "should include both fields, but odd config problems" do
       expect(sparql_parameters).to include("fields")
       expect(sparql_parameters[:fields].map(&:variable)).to match_array(%w(?index ?show))
     end
@@ -332,15 +299,6 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
 
     it "should add sort parameters" do
       expect(sparql_parameters[:facets]).to include({"?some" => {"variable" => "?some"}})
-    end
-
-    it "should add facet exclusions", skip: "Not for SPARQL" do
-      expect(sparql_parameters[:'facet.query']).to include('{!ex=xyz}some:query')
-      expect(sparql_parameters[:'facet.pivot']).to include('{!ex=xyz}a,b')
-    end
-
-    it "should add any additional sparql_params", skip: "Not for SPARQL" do
-      expect(sparql_parameters[:'f.some-field.facet.mincount']).to eq 15
     end
 
     describe ":include_in_request" do
@@ -438,33 +396,33 @@ describe Blacklight::Sparql::SearchBuilderBehavior do
       expect(sparql_parameters[:facets]).to include("?format")
     end
     it 'defaults offset to 0' do
-      expect(sparql_parameters[:facets]["?#{facet_field}"]).to include("offset" => 0)
+      expect(sparql_parameters[:facets]["?#{facet_field}"]).to include(offset: 0)
     end
     context 'when offset is manually set' do
       let(:user_params) { { page_key => 2 } }
       it 'uses offset manually set, and converts it to an integer' do
-        expect(sparql_parameters[:facets]["?#{facet_field}"]).to include("offset" => 20)
+        expect(sparql_parameters[:facets]["?#{facet_field}"]).to include(offset: 20)
       end
     end
     it 'defaults limit to 20' do
-      expect(sparql_parameters[:facets]["?#{facet_field}"]).to include("limit" => 20)
+      expect(sparql_parameters[:facets]["?#{facet_field}"]).to include(limit: 20)
     end
 
-    context 'when facet_list_limit is defined in scope', skip: "before setup fails" do
+    context 'when facet_list_limit is defined in scope', pending: "configuration problem" do
       before do
         allow(context).to receive_messages facet_list_limit: 1000
       end
       it 'uses scope method for limit' do
-        expect(sparql_parameters[:facets]).to include("limit" => 1001)
+        expect(sparql_parameters[:facets]["?#{facet_field}"]).to include(limit: 1000)
       end
 
       it 'uses controller method for limit when a ordinary limit is set' do
-        expect(sparql_parameters[:"f.#{facet_field}.facet.limit"]).to eq 1001
+        expect(sparql_parameters[:facets]["?#{facet_field}"]).to include(limit: 1000)
       end
     end
 
     it 'uses the default sort' do
-      expect(sparql_parameters[:"f.#{facet_field}.facet.sort"]).to be_blank
+      expect(sparql_parameters[:facets]["?#{facet_field}"][:sort]).to be_blank
     end
 
     context 'when sort is provided' do

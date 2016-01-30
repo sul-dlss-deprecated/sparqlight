@@ -90,6 +90,14 @@ describe Blacklight::Sparql::Repository do
       subject.search(search_params)
     end
 
+    it "should search with a facet prefix" do
+      search_params = HashWithIndifferentAccess.new
+      search_params[:facets] = {"?var" => {:variable => "?var", prefix: "foo"}}
+      expect(subject.connection).to receive(:query).with(/FILTER\(STRSTARTS\(STR\(\?var\), 'foo'\)\)/).and_return([]).at_least(:once)
+
+      subject.search(search_params)
+    end
+
     it "should request a count" do
       search_params = HashWithIndifferentAccess.new
       allow(subject.connection).to receive(:query).and_return(mock_response)
@@ -130,7 +138,7 @@ describe Blacklight::Sparql::Repository do
     it "should request facet counts" do
       search_params = HashWithIndifferentAccess.new
       search_params[:rows] = 0
-      search_params[:facets] = {"var" => {:variable => "?var"}}
+      search_params[:facets] = {"?var" => {:variable => "?var"}}
       expect(subject.connection).to receive(:query).with(/SELECT \?var \(COUNT\(\*\) as \?__count__\)/).and_return([])
 
       subject.search(search_params)
