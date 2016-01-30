@@ -4,7 +4,7 @@
 development:
   adapter: Sparql
   repository: "mongo"
-  collection: "nomisma"
+  collection: "nomisma-full"
 test: &test
   adapter: Sparql
   repository: "mongo"

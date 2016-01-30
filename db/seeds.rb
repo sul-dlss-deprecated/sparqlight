@@ -11,5 +11,13 @@ connection = Blacklight.default_index.connection
 repo = connection.url
 raise "Expected connection to a repository" unless repo.is_a?(RDF::Repository)
 repo.clear!
-repo.load("db/nomisma.ttl")
+RDF::Reader.open(Rails.env == "test" ? "db/nomisma.ttl" : "db/nomisma-full.ttl") do |reader|
+  reader.each_statement do |statement|
+    begin
+      repo.insert statement
+    rescue
+      $stderr.write "e"
+    end
+  end
+end
 $stderr.puts "Loaded #{repo.count} triples"
