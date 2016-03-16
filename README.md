@@ -32,9 +32,34 @@ Follow steps to have MongoDB start on login and run `lanuchctl` to start immedia
 Subsequently, perform rails initialization:
 
 * bundle install
-* rake db:migrate
-* rake db:seed
+* bundle exec rake db:migrate
+* bundle exec rake db:seed
 
 Tests can be run using `rspec`
 
 Service can be run locally using `bundle exec rails server`
+
+### Running on Blazegraph
+
+* `brew install blazegraph`
+
+Follow steps to have MongoDB start on login and run `lanuchctl` to start immediately (details may vary):
+
+    sudo cp -fv /usr/local/opt/bigdata/*.plist /Library/LaunchDaemons
+    sudo chown root /Library/LaunchDaemons/homebrew.mxcl.bigdata.plist
+
+Then to load bigdata now:
+
+    sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.bigdata.plist
+
+Or, if you don't want/need launchctl, you can just run:
+
+    bigdata start
+
+Load data using the blazegraph UI at `http://localhost:9999/bigdata/#update`. Drag `etc/nomisma-full.ttl` into update window and select `Update` control.
+
+Subsequently, perform rails initialization:
+
+* bundle install
+* RAILS_ENV=production bundle exec rake db:migrate
+* RAILS_ENV=production bundle exec rake db:seed
