@@ -63,3 +63,7 @@ Subsequently, perform rails initialization:
 * bundle install
 * RAILS_ENV=production bundle exec rake db:migrate
 * RAILS_ENV=production bundle exec rake db:seed
+
+After initializing secrets in config/secrets.yml, run the server in production mode pointing to the BlazeGraph SPARQL endpoint:
+
+    SPARQL_URL=http://localhost:9999/bigdata/sparql RAILS_ENV=production bundle exec rails server
