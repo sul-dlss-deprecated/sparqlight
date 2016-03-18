@@ -38,14 +38,11 @@ class CatalogController < ApplicationController
       },
       "@type": "mo:Performance",
       "event:sub_event": {
-        "@type": "mo:Performance",
         "mo:performance_of": {
           "@type": "mo:MusicalWork"
         }
       },
-      "mo:performer": {
-        "@type": "mo:MusicArtist"
-      }
+      "mo:performer": {}
     })
 
     # items to show per page, each number in the array represent another option to choose from.
