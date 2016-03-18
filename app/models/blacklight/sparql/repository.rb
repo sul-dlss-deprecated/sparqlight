@@ -117,7 +117,7 @@ module Blacklight::Sparql
       when params[:rows] == 0 then 0
       when params[:id] then 1
       else
-        res = connection.query(prefixes + "SELECT (COUNT(?id) as ?__count__)\n" + where + "}")
+        res = connection.query(prefixes + "SELECT (COUNT(DISTINCT ?id) as ?__count__)\n" + where + "}")
         (res.first || {})[:__count__].to_i
       end
 
@@ -163,7 +163,7 @@ module Blacklight::Sparql
       facet_fields = HashWithIndifferentAccess.new
       params[:facets].each do |name, facet|
         var_sym = facet[:variable].to_s[1..-1].to_sym
-        query = prefixes + "\nSELECT #{facet[:variable]} (COUNT(*) as ?__count__)" +
+        query = prefixes + "\nSELECT #{facet[:variable]} (COUNT(DISTINCT ?id) as ?__count__)" +
           where + "}\n" +
           "GROUP BY #{facet[:variable]}\n"
         query += "OFFSET #{facet[:offset].to_i}\n" if facet[:offset]
@@ -192,6 +192,7 @@ module Blacklight::Sparql
         document_model: blacklight_config.document_model,
         blacklight_config: blacklight_config
       }.with_indifferent_access
+      Blacklight.logger.debug {"Framed JSON_LD: #{docs.to_json(JSON::LD::JSON_STATE)}"}
       blacklight_config.response_model.new(docs, params, response_opts)
     end
 
