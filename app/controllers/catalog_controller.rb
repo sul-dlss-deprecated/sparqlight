@@ -34,7 +34,10 @@ class CatalogController < ApplicationController
         "dc": "http://purl.org/dc/elements/1.1/",
         "event": "http://purl.org/NET/c4dm/event.owl#",
         "mo": "http://purl.org/ontology/mo/",
-        "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+
+        "perf_place":     "event:place",
+        "perf_label":     "rdfs:label"
       },
       "@type": "mo:Performance",
       "event:sub_event": {
@@ -55,20 +58,20 @@ class CatalogController < ApplicationController
     # * `patterns` (optional) are SPARQL triple patterns necessary to navigate between `?id` and `variable`. Defaults to a pattern composed of `?id`, `predicate` and `variable`.
     # * `predicate` defaults to _field name_, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
     # * `filter_language` set to true, if the configured language should be used as a filter for the variable result if it is a language-tagged literal.
-    config.add_facet_field 'performer_name',
+    config.add_facet_field 'mo:performer',
       field: '?performer_name',
       label: 'Performer',
       variable: "?performer_name",
-      :patterns => [
+      patterns: [
         "?id mo:performer ?performer",
         "?performer a mo:MusicArtist; foaf:name ?performer_name"
       ]
 
-    config.add_facet_field 'work_title',
+    config.add_facet_field 'event:sub_event',
       field: '?work_title',
       label: 'Musical Work',
       variable: "?work_title",
-      :patterns => [
+      patterns: [
         "?id event:sub_event ?perf_work",
         "?perf_work mo:performance_of ?work",
         "?work a mo:MusicalWork; dc:title ?work_title"
@@ -90,20 +93,20 @@ class CatalogController < ApplicationController
     # * `filter_language` set to true, if the configured language should be used as a filter for the variable result if it is a language-tagged literal.
     config.add_index_field 'perf_label', predicate: 'rdfs:label', label: 'Label', variable: "?perf_label"
     config.add_index_field 'perf_place', predicate: 'event:place', label: 'Place', variable: "?perf_place"
-    config.add_index_field 'work_title',
+    config.add_index_field 'event:sub_event',
+      label: 'Musical Work',
+      variable: "?work_title",
       helper_method: 'render_work',
-      :label => 'Musical Work',
-      :variable => "?work_title",
-      :patterns => [
+      patterns: [
         "?id event:sub_event ?perf_work",
         "?perf_work mo:performance_of ?work",
         "?work a mo:MusicalWork; dc:title ?work_title"
       ]
-    config.add_index_field 'performer_name',
-      field: '?performer_name',
+    config.add_index_field 'mo:performer',
       label: 'Performer',
       variable: "?performer_name",
-      :patterns => [
+      helper_method: 'render_performer',
+      patterns: [
         "?id mo:performer ?performer",
         "?performer a mo:MusicArtist; foaf:name ?performer_name"
       ]
@@ -112,20 +115,20 @@ class CatalogController < ApplicationController
     #   The ordering of the field names is the order of the display 
     config.add_show_field 'perf_label', predicate: 'rdfs:label', label: 'Label', variable: "?perf_label"
     config.add_show_field 'perf_place', predicate: 'event:place', label: 'Place', variable: "?perf_place"
-    config.add_show_field 'work_title',
+    config.add_show_field 'event:sub_event',
+      label: 'Musical Work',
+      variable: "?work_title",
       helper_method: 'render_work',
-      :label => 'Musical Work',
-      :variable => "?work_title",
-      :patterns => [
+      patterns: [
         "?id event:sub_event ?perf_work",
         "?perf_work mo:performance_of ?work",
         "?work a mo:MusicalWork; dc:title ?work_title"
       ]
-    config.add_show_field 'performer_name',
-      field: '?performer_name',
+    config.add_show_field 'mo:performer',
       label: 'Performer',
       variable: "?performer_name",
-      :patterns => [
+      helper_method: 'render_performer',
+      patterns: [
         "?id mo:performer ?performer",
         "?performer a mo:MusicArtist; foaf:name ?performer_name"
       ]
@@ -159,7 +162,7 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('work') do |field|
-      field.label = 'Work'
+      field.label = 'Musical Work'
       field.variable = "?work_title"
       field.patterns = ["FILTER(CONTAINS(STR(?work_title), '%{q}'))"]
     end
@@ -176,7 +179,7 @@ class CatalogController < ApplicationController
     # except in the relevancy case).
     config.add_sort_field '?perf_label asc', label: 'Performance'
     config.add_sort_field '?perf_place asc', label: 'Place'
-    config.add_sort_field '?work_title asc', label: 'Work'
+    config.add_sort_field '?work_title asc', label: 'Musical Work'
     config.add_sort_field '?performer_name asc', label: 'Performer'
   end
 
