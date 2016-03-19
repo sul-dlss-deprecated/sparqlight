@@ -67,10 +67,8 @@ module Blacklight::Sparql
       construct += "}\n"
 
       # Add Lanaugage filters
-      # FIXME: not 'en', but configured language, defaulting to 'en'
-      # HINT: use Rails I18N.locale
       fields.select(&:filter_language).each do |field|
-        where += "  FILTER(langMatches(LANG(#{field.variable}), 'en'))\n"
+        where += "  FILTER(langMatches(LANG(#{field.variable}), '#{I18n.locale}'))\n"
       end
 
       # Add search terms
