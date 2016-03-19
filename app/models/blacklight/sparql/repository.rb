@@ -44,7 +44,7 @@ module Blacklight::Sparql
       # Document query with a restriction on
       # Build query using defined prefixes, id, and index fields
       fields = params.fetch(:fields, blacklight_config.index_fields.values)
-      prefixes = blacklight_config.sparql_prefixes.map {|p, u| "PREFIX #{p}: <#{u}>"}.join("\n")
+      prefixes = blacklight_config.sparql_prefixes.map {|p, u| "PREFIX #{p}: <#{u}>"}.join("\n") + "\n\n"
       index_query =  "\nSELECT DISTINCT ?id\n"
       construct = "\nCONSTRUCT {\n"
       where =  "\nWHERE {\n"
@@ -208,7 +208,7 @@ module Blacklight::Sparql
         # Query endpoint, interpolating parameters
         sparql_response = connection.query(query)
 
-        Blacklight.logger.debug {"SPARQL query: #{query}"}
+        Blacklight.logger.debug {"SPARQL query:\n#{query}"}
         Blacklight.logger.debug {"SPARQL response: #{sparql_response.inspect}"} if defined?(::BLACKLIGHT_VERBOSE_LOGGING) and ::BLACKLIGHT_VERBOSE_LOGGING
         sparql_response
       end

@@ -101,7 +101,7 @@ describe Blacklight::Sparql::Repository do
     it "should request a count" do
       search_params = HashWithIndifferentAccess.new
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(\?id\) as \?__count__\)/)
+      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(DISTINCT \?id\) as \?__count__\)/)
 
       subject.search(search_params)
     end
@@ -109,7 +109,7 @@ describe Blacklight::Sparql::Repository do
     it "should get distinct ?id" do
       search_params = HashWithIndifferentAccess.new
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(\?id\) as \?__count__\)/).and_return(mock_count)
+      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(DISTINCT \?id\) as \?__count__\)/).and_return(mock_count)
       expect(subject.connection).to receive(:query).with(/SELECT DISTINCT \?id/).and_return(mock_index)
 
       subject.search(search_params)
@@ -119,7 +119,7 @@ describe Blacklight::Sparql::Repository do
       search_params = HashWithIndifferentAccess.new
       search_params[:start] = 5
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(\?id\) as \?__count__\)/).and_return(mock_count)
+      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(DISTINCT \?id\) as \?__count__\)/).and_return(mock_count)
       expect(subject.connection).to receive(:query).with(/SELECT DISTINCT \?id.*OFFSET 5/m).and_return(mock_index)
 
       subject.search(search_params)
@@ -129,7 +129,7 @@ describe Blacklight::Sparql::Repository do
       search_params = HashWithIndifferentAccess.new
       search_params[:rows] = 5
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(\?id\) as \?__count__\)/).and_return(mock_count)
+      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(DISTINCT \?id\) as \?__count__\)/).and_return(mock_count)
       expect(subject.connection).to receive(:query).with(/SELECT DISTINCT \?id.*LIMIT 5/m).and_return(mock_index)
 
       subject.search(search_params)
@@ -139,7 +139,7 @@ describe Blacklight::Sparql::Repository do
       search_params = HashWithIndifferentAccess.new
       search_params[:rows] = 0
       search_params[:facets] = {"?var" => {:variable => "?var"}}
-      expect(subject.connection).to receive(:query).with(/SELECT \?var \(COUNT\(\*\) as \?__count__\)/).and_return([])
+      expect(subject.connection).to receive(:query).with(/SELECT \?var \(COUNT\(DISTINCT \?id\) as \?__count__\)/).and_return([])
 
       subject.search(search_params)
     end
