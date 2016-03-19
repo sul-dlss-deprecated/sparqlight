@@ -68,7 +68,7 @@ module Blacklight::Sparql
 
       # Add Lanaugage filters
       fields.select(&:filter_language).each do |field|
-        where += "  FILTER(langMatches(LANG(#{field.variable}), '#{I18n.locale}'))\n"
+        where += %(  FILTER(langMatches(LANG(#{field.variable}), "#{I18n.locale}"))\n)
       end
 
       # Add search terms
@@ -78,14 +78,14 @@ module Blacklight::Sparql
         patterns = search_field[:patterns]
         patterns ||= case search_field[:variable]
         when Array
-          ["FILTER(CONTAINS(STR(CONCAT(#{search_field[:variable].join(',')})), '%{q}'))"]
+          [%(FILTER(CONTAINS(STR(CONCAT(#{search_field[:variable].join(',')})), "%{q}")))]
         when nil
           raise "repository search requires patterns or variable"
         else
-          ["FILTER(CONTAINS(STR(#{search_field[:variable]}), '%{q}'))"]
+          [%(FILTER(CONTAINS(STR(#{search_field[:variable]}), "%{q}")))]
         end
         patterns.each do |pattern|
-          where += pattern % {q: search_field[:q]}
+          where += pattern % {q: RDF::NTriples::Writer.escape(search_field[:q])}
         end
       end
 
@@ -94,10 +94,10 @@ module Blacklight::Sparql
       params.fetch(:facet_values, {}).each do |variable, value|
         where += case value
         when Array
-          values = value.map {|v| "'#{v}'"}.join(', ')
-          "  FILTER(STR(#{variable}) IN(#{values}))\n"
+          values = value.map {|v| %("#{RDF::NTriples::Writer.escape v}")}.join(', ')
+          %(  FILTER(STR(#{variable}) IN(#{values}))\n)
         when String
-          "  FILTER(STR(#{variable}) = '#{value}')\n"
+          %(  FILTER(STR(#{variable}) = "#{RDF::NTriples::Writer.escape value}")\n)
         else
           ""
         end
@@ -107,7 +107,7 @@ module Blacklight::Sparql
       # FIXME escape filter values
       params[:facets].each do |variable, facet|
         next if facet[:prefix].blank?
-        where += "  FILTER(STRSTARTS(STR(#{variable}), '#{facet[:prefix]}'))"
+        where += %(  FILTER(STRSTARTS(STR(#{variable}), "#{RDF::NTriples::Writer.escape facet[:prefix]}")))
       end
 
       # Get record count
