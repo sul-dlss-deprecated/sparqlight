@@ -51,15 +51,14 @@ class CatalogController < ApplicationController
     # * `predicate` defaults to _field name_, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
     # * `filter_language` set to true, if the configured language should be used as a filter for the variable result if it is a language-tagged literal.
     config.add_facet_field 'num_label',
-      field: '?num_lab',
-      :label => 'Numismatics',
-      :variable => "?num_lab",
-      :patterns => [
+      label: 'Numismatics',
+      variable: "?num_lab",
+      patterns: [
         "?id dcterms:isPartOf ?num",
         "?num a nmo:FieldOfNumismatics",
         "?num skos:prefLabel ?num_lab"
       ],
-      :filter_language => true
+      filter_language: true
 
     # Have BL send all facet field names to Sparql, which has been the default
     # previously. Simply remove these lines if you'd rather use Sparql request
@@ -75,35 +74,35 @@ class CatalogController < ApplicationController
     # * `predicate` defaults to field name, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
     # * `patterns` (optional) are SPARQL triple patterns necessary to navigate between `?id` and `variable`. They default to using the _field name_ as the predicate relating `?id` and `variable`. These are also used in CONSTRUCT when generating RDF triples to frame.
     # * `filter_language` set to true, if the configured language should be used as a filter for the variable result if it is a language-tagged literal.
-    config.add_index_field 'skos:prefLabel', :label => 'Label', :variable => "?lab", :filter_language => true
-    config.add_index_field 'skos:definition', :label => 'Definition', :variable => "?defn", :filter_language => true
+    config.add_index_field 'skos:prefLabel', label: 'Label', variable: "?lab", filter_language: true
+    config.add_index_field 'skos:definition', label: 'Definition', variable: "?defn", filter_language: true
     config.add_index_field 'num_label',
       field: 'dcterms:isPartOf',
       helper_method: 'render_numismatics',
-      :label => 'Numismatics',
-      :variable => "?num_lab",
-      :patterns => [
+      label: 'Numismatics',
+      variable: "?num_lab",
+      patterns: [
         "?id dcterms:isPartOf ?num",
         "?num a nmo:FieldOfNumismatics",
         "?num skos:prefLabel ?num_lab"
       ],
-      :filter_language => true
+      filter_language: true
 
     # Sparql fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display 
-    config.add_show_field 'skos:prefLabel', :label => 'Label', :variable => "?lab", :filter_language => true
-    config.add_show_field 'skos:definition', :label => 'Definition', :variable => "?defn", :filter_language => true
+    config.add_show_field 'skos:prefLabel', label: 'Label', variable: "?lab", filter_language: true
+    config.add_show_field 'skos:definition', label: 'Definition', variable: "?defn", filter_language: true
     config.add_show_field 'num_label',
       field: 'dcterms:isPartOf',
       helper_method: 'render_numismatics',
-      :label => 'Numismatics',
-      :variable => "?num_lab",
-      :patterns => [
+      label: 'Numismatics',
+      variable: "?num_lab",
+      patterns: [
         "?id dcterms:isPartOf ?num",
         "?num a nmo:FieldOfNumismatics",
         "?num skos:prefLabel ?num_lab"
       ],
-      :filter_language => true
+      filter_language: true
 
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
@@ -131,8 +130,8 @@ class CatalogController < ApplicationController
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc
     # except in the relevancy case).
-    config.add_sort_field '?lab asc', :label => 'Label'
-    config.add_sort_field '?defn asc', :label => 'Definition'
+    config.add_sort_field '?lab asc', label: 'Label'
+    config.add_sort_field '?defn asc', label: 'Definition'
   end
 
 end 
