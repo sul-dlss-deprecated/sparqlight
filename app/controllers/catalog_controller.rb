@@ -52,25 +52,27 @@ class CatalogController < ApplicationController
     #config.per_page = [10,20,50,100]
 
     # Facet fields, may be bound when querying
-    # * _field name_ is predicate or other distinguishing identifier
+    # * _field_ is predicate or other distinguishing identifier
     # * `label` used for human-readible form label
     # * `variable` is the SPARQL variable associated with the field
     # * `patterns` (optional) are SPARQL triple patterns necessary to navigate between `?id` and `variable`. Defaults to a pattern composed of `?id`, `predicate` and `variable`.
     # * `predicate` defaults to _field name_, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
     # * `filter_language` set to true, if the configured language should be used as a filter for the variable result if it is a language-tagged literal.
     config.add_facet_field 'mo:performer',
-      field: '?performer_name',
       label: 'Performer',
       variable: "?performer_name",
+      limit: 20,
+      index_range: 'A'..'Z',
       patterns: [
         "?id mo:performer ?performer",
         "?performer a mo:MusicArtist; foaf:name ?performer_name"
       ]
 
     config.add_facet_field 'event:sub_event',
-      field: '?work_title',
       label: 'Musical Work',
       variable: "?work_title",
+      limit: true,
+      index_range: 'A'..'Z',
       patterns: [
         "?id event:sub_event ?perf_work",
         "?perf_work mo:performance_of ?work",
