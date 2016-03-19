@@ -105,9 +105,9 @@ module Blacklight::Sparql
 
       # Add facet prefixes
       # FIXME escape filter values
-      params[:facets].each do |variable, facet|
+      params[:facets].each do |field, facet|
         next if facet[:prefix].blank?
-        where += %(  FILTER(STRSTARTS(STR(#{variable}), "#{RDF::NTriples::Writer.escape facet[:prefix]}")))
+        where += %(  FILTER(STRSTARTS(STR(#{facet[:variable]}), "#{RDF::NTriples::Writer.escape facet[:prefix]}")))
       end
 
       # Get record count
@@ -159,23 +159,24 @@ module Blacklight::Sparql
 
       # Get facet fields
       facet_fields = HashWithIndifferentAccess.new
-      params[:facets].each do |name, facet|
+      params[:facets].each do |field, facet|
         var_sym = facet[:variable].to_s[1..-1].to_sym
         query = prefixes + "\nSELECT #{facet[:variable]} (COUNT(DISTINCT ?id) as ?__count__)" +
           where + "}\n" +
           "GROUP BY #{facet[:variable]}\n"
-        query += "OFFSET #{facet[:offset].to_i}\n" if facet[:offset]
-        query += "LIMIT #{facet[:limit].to_i}\n" if facet[:limit]
 
         # Order by variable our count
         query += if facet[:sort] == 'count'
-          "ORDER BY __count__\n"
+          "ORDER BY DESC(?__count__)\n"
         else
           "ORDER BY #{facet[:variable]}\n"
         end
 
+        query += "OFFSET #{facet[:offset].to_i}\n" if facet[:offset]
+        query += "LIMIT #{facet[:limit].to_i}\n" if facet[:limit]
+
         # Facet field values as Hash
-        facet_fields[name] = send_and_receive(query).inject({}) do |memo, soln|
+        facet_fields[field] = send_and_receive(query).inject({}) do |memo, soln|
           memo[soln[var_sym].object] = soln[:__count__].object if soln[var_sym]
           memo
         end

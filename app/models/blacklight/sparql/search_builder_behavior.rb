@@ -75,7 +75,7 @@ module Blacklight::Sparql
         # want to page at, according to configured facet limits.
         facet_param[:limit] = (facet_limit_for(field_name) + 1) if facet_limit_for(field_name)
 
-        sparql_parameters[:facets][facet.variable] = facet_param
+        sparql_parameters[:facets][field_name] = facet_param
       end
     end
 
@@ -118,8 +118,8 @@ module Blacklight::Sparql
 
       # Now override with our specific things for fetching facet values
       sparql_parameters[:facets] ||= {}
-      sparql_parameters[:facets][facet_config.variable] ||= {variable: facet_config.variable}
-      facet_param = sparql_parameters[:facets][facet_config.variable]
+      sparql_parameters[:facets][facet_config.field] ||= {variable: facet_config.variable}
+      facet_param = sparql_parameters[:facets][facet_config.field]
 
       limit = if scope.respond_to?(:facet_list_limit)
                 scope.facet_list_limit.to_s.to_i
