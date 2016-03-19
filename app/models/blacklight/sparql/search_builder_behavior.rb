@@ -95,10 +95,7 @@ module Blacklight::Sparql
       rows(sparql_parameters[:rows] || 10) if rows.nil?
 
       sparql_parameters[:rows] = rows
-
-      if start != 0
-        sparql_parameters[:rows] = start
-      end
+      sparql_parameters[:start] = start if start != 0
     end
 
     ###

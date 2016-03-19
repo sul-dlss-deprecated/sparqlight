@@ -51,7 +51,15 @@ describe Blacklight::Sparql::Repository do
     it "should search variable" do
       search_params = {search: {variable: "?lit", q: "foo"}}.with_indifferent_access
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/FILTER\(CONTAINS\(STR\(\?lit\), 'foo'\)\)/)
+      expect(subject.connection).to receive(:query).with(/FILTER\(CONTAINS\(STR\(\?lit\), "foo"\)\)/)
+
+      subject.search(search_params)
+    end
+
+    it "should search variable with escape" do
+      search_params = {search: {variable: "?lit", q: 'foo"bar'}}.with_indifferent_access
+      allow(subject.connection).to receive(:query).and_return(mock_response)
+      expect(subject.connection).to receive(:query).with(/FILTER\(CONTAINS\(STR\(\?lit\), "foo\\\"bar"\)\)/)
 
       subject.search(search_params)
     end
@@ -59,7 +67,7 @@ describe Blacklight::Sparql::Repository do
     it "should not search variable with empty value" do
       search_params = {search: {variable: "?lit", q: ""}}.with_indifferent_access
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).not_to receive(:query).with(/FILTER\(CONTAINS\(STR\(\?lit\), ''\)\)/)
+      expect(subject.connection).not_to receive(:query).with(/FILTER\(CONTAINS\(STR\(\?lit\), ""\)\)/)
 
       subject.search(search_params)
     end
@@ -67,7 +75,7 @@ describe Blacklight::Sparql::Repository do
     it "should search multiple variables" do
       search_params = {search: {variable: %w(?a ?b), q: "foo"}}.with_indifferent_access
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/FILTER\(CONTAINS\(STR\(CONCAT\(\?a,\?b\)\), 'foo'\)\)/)
+      expect(subject.connection).to receive(:query).with(/FILTER\(CONTAINS\(STR\(CONCAT\(\?a,\?b\)\), "foo"\)\)/)
 
       subject.search(search_params)
     end
@@ -76,7 +84,7 @@ describe Blacklight::Sparql::Repository do
       search_params = HashWithIndifferentAccess.new
       search_params[:facet_values] = {"?lit" => "foo"}
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/FILTER\(STR\(\?lit\) = 'foo'\)/)
+      expect(subject.connection).to receive(:query).with(/FILTER\(STR\(\?lit\) = "foo"\)/)
 
       subject.search(search_params)
     end
@@ -85,7 +93,7 @@ describe Blacklight::Sparql::Repository do
       search_params = HashWithIndifferentAccess.new
       search_params[:facet_values] = {"?lit" => %w(foo bar)}
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/FILTER\(STR\(\?lit\) IN\('foo', 'bar'\)\)/)
+      expect(subject.connection).to receive(:query).with(/FILTER\(STR\(\?lit\) IN\("foo", "bar"\)\)/)
 
       subject.search(search_params)
     end
@@ -93,7 +101,7 @@ describe Blacklight::Sparql::Repository do
     it "should search with a facet prefix" do
       search_params = HashWithIndifferentAccess.new
       search_params[:facets] = {"?var" => {:variable => "?var", prefix: "foo"}}
-      expect(subject.connection).to receive(:query).with(/FILTER\(STRSTARTS\(STR\(\?var\), 'foo'\)\)/).and_return([]).at_least(:once)
+      expect(subject.connection).to receive(:query).with(/FILTER\(STRSTARTS\(STR\(\?var\), "foo"\)\)/).and_return([]).at_least(:once)
 
       subject.search(search_params)
     end
@@ -101,7 +109,7 @@ describe Blacklight::Sparql::Repository do
     it "should request a count" do
       search_params = HashWithIndifferentAccess.new
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(\?id\) as \?__count__\)/)
+      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(DISTINCT \?id\) as \?__count__\)/)
 
       subject.search(search_params)
     end
@@ -109,7 +117,7 @@ describe Blacklight::Sparql::Repository do
     it "should get distinct ?id" do
       search_params = HashWithIndifferentAccess.new
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(\?id\) as \?__count__\)/).and_return(mock_count)
+      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(DISTINCT \?id\) as \?__count__\)/).and_return(mock_count)
       expect(subject.connection).to receive(:query).with(/SELECT DISTINCT \?id/).and_return(mock_index)
 
       subject.search(search_params)
@@ -119,7 +127,7 @@ describe Blacklight::Sparql::Repository do
       search_params = HashWithIndifferentAccess.new
       search_params[:start] = 5
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(\?id\) as \?__count__\)/).and_return(mock_count)
+      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(DISTINCT \?id\) as \?__count__\)/).and_return(mock_count)
       expect(subject.connection).to receive(:query).with(/SELECT DISTINCT \?id.*OFFSET 5/m).and_return(mock_index)
 
       subject.search(search_params)
@@ -129,7 +137,7 @@ describe Blacklight::Sparql::Repository do
       search_params = HashWithIndifferentAccess.new
       search_params[:rows] = 5
       allow(subject.connection).to receive(:query).and_return(mock_response)
-      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(\?id\) as \?__count__\)/).and_return(mock_count)
+      expect(subject.connection).to receive(:query).with(/SELECT \(COUNT\(DISTINCT \?id\) as \?__count__\)/).and_return(mock_count)
       expect(subject.connection).to receive(:query).with(/SELECT DISTINCT \?id.*LIMIT 5/m).and_return(mock_index)
 
       subject.search(search_params)
@@ -139,7 +147,7 @@ describe Blacklight::Sparql::Repository do
       search_params = HashWithIndifferentAccess.new
       search_params[:rows] = 0
       search_params[:facets] = {"?var" => {:variable => "?var"}}
-      expect(subject.connection).to receive(:query).with(/SELECT \?var \(COUNT\(\*\) as \?__count__\)/).and_return([])
+      expect(subject.connection).to receive(:query).with(/SELECT \?var \(COUNT\(DISTINCT \?id\) as \?__count__\)/).and_return([])
 
       subject.search(search_params)
     end
