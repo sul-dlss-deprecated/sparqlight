@@ -222,7 +222,9 @@ module Blacklight::Sparql
     def build_connection
       case connection_config
       when Hash
-        if connection_config[:repository]
+        if !connection_config[:url].blank?
+          SPARQL::Client.new(connection_config[:url])
+        elsif connection_config[:repository]
           # Create a new repository to use as client
           case repo_config = connection_config[:repository]
           when /sqlite3|postgres/
@@ -237,8 +239,6 @@ module Blacklight::Sparql
             SPARQL::Client.new RDF::Mongo::Repository.new(connection_config)
           else
           end
-        elsif connection_config[:url]
-          SPARQL::Client.new(connection_config[:url])
         else
           raise "Expected :repository for RDF::DataObjects initializer for local repository or :url for a remote SPARQL endpoint"
         end
