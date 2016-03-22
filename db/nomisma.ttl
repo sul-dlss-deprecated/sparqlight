@@ -1,0 +1,217 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix ecrm: <http://erlangen-crm.org/current/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix un: <http://www.owl-ontologies.com/Ontology1181490123.owl#> .
+@prefix osgeo: <http://data.ordnancesurvey.co.uk/ontology/geometry/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix nmo: <http://nomisma.org/ontology#> .
+@prefix nm: <http://nomisma.org/id/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdac: <http://www.rdaregistry.info/Elements/c/> .
+
+<http://nomisma.org/id/-des_cos>
+    dcterms:isPartOf nm:greek_numismatics ;
+    a skos:Concept, foaf:Person ;
+    skos:definition "Magistrate attested on the Alexander coinage of Cos, c. 185-170 BC. See M. J. Price, Coinage in the Name of Alexander the Great and Philip Arrhidaeus (London/Zurich, 1994), no. 2506"@en ;
+    skos:prefLabel "[...]ΔΗΣ"@el, "[…]des"@en ;
+    org:hasMembership <http://nomisma.org/id/-des_cos#issuer> .
+
+<http://nomisma.org/id/-des_cos#issuer>
+    nmo:hasEndDate "-0170"^^xsd:gYear ;
+    nmo:hasStartDate "-0185"^^xsd:gYear ;
+    a org:Membership ;
+    org:organization nm:cos ;
+    org:role nm:issuer .
+
+<http://nomisma.org/id/-dokles_chios>
+    dcterms:isPartOf nm:greek_numismatics ;
+    a skos:Concept, foaf:Person ;
+    skos:definition "Magistrate attested on the Alexander coinage of Chios, c. 190-165 BC. See M. J. Price, Coinage in the Name of Alexander the Great and Philip Arrhidaeus (London/Zurich, 1994), no. 2408"@en ;
+    skos:prefLabel "[...]ΔΟΚΛΗΣ"@el, "[…]dokles"@en ;
+    org:hasMembership <http://nomisma.org/id/-dokles_chios#issuer> .
+
+<http://nomisma.org/id/-dokles_chios#issuer>
+    nmo:hasEndDate "-0165"^^xsd:gYear ;
+    nmo:hasStartDate "-0190"^^xsd:gYear ;
+    a org:Membership ;
+    org:organization nm:chios ;
+    org:role nm:issuer .
+
+<http://nomisma.org/id/10-as>
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Denomination, skos:Concept ;
+    skos:definition "10 as"@fr, "An ancient denomination with the value of 10 asses"@en ;
+    skos:prefLabel "10 as"@en, "10 as"@fr, "10 ases"@es .
+
+<http://nomisma.org/id/10-aureus>
+    dcterms:isPartOf nm:roman_numismatics ;
+    a nmo:Denomination, skos:Concept ;
+    skos:definition "Roman denomination equivalent in value to 10 aurei."@en ;
+    skos:prefLabel "10 Aureus"@en .
+
+<http://nomisma.org/id/10-litra>
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Denomination, skos:Concept ;
+    skos:definition "10 litrai"@fr, "An ancient denomination with the value of 10 litrai"@en ;
+    skos:prefLabel "10 litra"@en, "10 litrai"@fr, "10 litras"@es .
+
+<http://nomisma.org/id/10-stater>
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Denomination, skos:Concept ;
+    skos:definition "10 statère"@fr, "An ancient denomination with the value of 10 staters"@en ;
+    skos:prefLabel "10 estateras"@es, "10 stater"@en, "10 statère"@fr .
+
+<http://nomisma.org/id/10-unit>
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Denomination, skos:Concept ;
+    skos:definition "10 unités"@fr, "An ancient denomination with the value of 10 units"@en ;
+    skos:prefLabel "10 unidades"@es, "10 unit"@en, "10 unités"@fr .
+
+<http://nomisma.org/id/100-litra>
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Denomination, skos:Concept ;
+    skos:definition "100 litrai"@fr, "An ancient denomination with the value of 100 litrai"@en ;
+    skos:prefLabel "100 litra"@en, "100 litrai"@fr, "100 litras"@es .
+
+<http://nomisma.org/id/12-as>
+    dcterms:isPartOf nm:roman_numismatics ;
+    a nmo:Denomination, skos:Concept ;
+    skos:definition "Roman denomination equivalent in value to 12 asses."@en ;
+    skos:prefLabel "12 As"@en .
+
+<http://nomisma.org/id/12-litra>
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Denomination, skos:Concept ;
+    skos:definition "12 litrai"@fr, "An ancient denomination with the value of 12 litrai (dodekalitra)."@en ;
+    skos:prefLabel "12 litra"@en, "12 litrai"@fr, "12 litras"@es .
+
+<http://nomisma.org/id/15-litra>
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Denomination, skos:Concept ;
+    skos:definition "15 litrai"@fr, "An ancient denomination with the value of 15 litrai"@en ;
+    skos:prefLabel "15 litra"@en, "15 litrai"@fr, "15 litras"@es .
+
+<http://nomisma.org/id/16-drachm>
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Denomination, skos:Concept ;
+    skos:definition "16 drachmes"@fr, "An ancient denomination with the value of 16 drachms"@en ;
+    skos:prefLabel "16 drachm"@en, "16 drachmes"@fr, "16 dracmas"@es .
+
+<http://nomisma.org/id/16-litra>
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Denomination, skos:Concept ;
+    skos:definition "16 litrai"@fr, "An ancient denomination with the value of 16 litrai"@en ;
+    skos:prefLabel "16 litra"@en, "16 litrai"@fr, "16 litras"@es .
+
+<http://nomisma.org/id/2-daric>
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Denomination, skos:Concept ;
+    skos:definition "2 dariques"@fr, "An ancient denomination with the value of 2 darics"@en ;
+    skos:prefLabel "Doble dárico"@es, "Double daric"@en, "Double darique"@fr .
+
+<http://nomisma.org/id/2-onkia>
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Denomination, skos:Concept ;
+    skos:definition "2 onkia"@fr, "An ancient denomination with the value of 2 onkiai"@en ;
+    skos:exactMatch nm:biunx ;
+    skos:prefLabel "Hexas"@en, "Hexas"@es, "Hexas"@fr .
+
+## Other stuff needed for completness
+
+nm:biunx
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Denomination, skos:Concept ;
+    skos:definition "2 onkia"@fr, "An ancient denomination with the value of 2 onkiai"@en ;
+    skos:exactMatch <http://nomisma.org/id/2-onkia> ;
+    skos:prefLabel "Biunx"@en, "Biunx"@es, "Biunx"@fr .
+
+nm:cos
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Mint, skos:Concept ;
+    geo:location <http://nomisma.org/id/cos#this> ;
+    skos:altLabel "Kos"@en ;
+    skos:broader nm:islands_off_caria ;
+    skos:closeMatch <http://collection.britishmuseum.org/id/place/x27202>, <http://d-nb.info/gnd/4032541-6>, <http://dbpedia.org/resource/Kos>, <http://pleiades.stoa.org/places/599728>, <http://vocab.getty.edu/tgn/7010871>, <http://www.geonames.org/8133957>, <http://www.geonames.org/9847674>, <http://www.wikidata.org/entity/Q187027>, <https://www.freebase.com/m/01kv_0> ;
+    skos:definition "The mint at the ancient site of Cos on Cos, Caria."@en ;
+    skos:prefLabel "Coo"@it, "Cos"@en, "Cos"@es, "Cos"@fr, "Cos"@la, "Cos - Κως"@gl, "Cós"@pt, "Kos"@br, "Kos"@ca, "Kos"@cy, "Kos"@da, "Kos"@de, "Kos"@et, "Kos"@fi, "Kos"@fo, "Kos"@fy, "Kos"@hr, "Kos"@ie, "Kos"@li, "Kos"@nb, "Kos"@nl, "Kos"@nn, "Kos"@pl, "Kos"@ro, "Kos"@sh, "Kos"@sk, "Kos"@sl, "Kos"@sv, "Kos"@vi, "Kosz"@hu, "Kós"@cs, "Pulau Kos"@id, "İstanköy"@tr, "Κως"@el, "Кос"@be, "Кос"@bg, "Кос"@ru, "Кос"@sr, "Кос"@uk, "קוס"@he, "كوس"@ar, "کوس"@fa, "کوس"@ur, "コス島"@ja, "科斯岛"@zh, "코스 섬"@ko .
+
+nm:chios
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Mint, skos:Concept ;
+    geo:location <http://nomisma.org/id/chios#this> ;
+    skos:altLabel "Khios"@en ;
+    skos:broader nm:islands_off_ionia ;
+    skos:closeMatch <http://collection.britishmuseum.org/id/place/x28201>, <http://dbpedia.org/resource/Chios_(town)>, <http://pleiades.stoa.org/places/550496>, <http://vocab.getty.edu/tgn/1042072>, <http://www.geonames.org/259972>, <http://www.geonames.org/259973>, <http://www.wikidata.org/entity/Q748832>, <https://www.freebase.com/m/0b40ng> ;
+    skos:definition "The mint at the ancient site of Chios on Chios, off Ionia."@en .
+
+nm:greek_numismatics
+    a nmo:FieldOfNumismatics, skos:Concept ;
+    skos:definition """The study of the coins, other numismatic items and numismatic history of the Ancient Greek World. At its broadest, this encompasses the numismatic productions of
+			the Mediterranean world prior to the rise of Roman power, including such areas as Gaul, Britain, and Spain. It is appropriate to include the coinages of Greek cities under the empire in
+			the study of Greek numismatics, though more recent scholarship emphasizes the imperial context of this material."""@en ;
+    skos:exactMatch <http://vocab.getty.edu/aat/300020072> ;
+    skos:prefLabel "Greek Numismatics"@en .
+
+nm:roman_numismatics
+    a nmo:FieldOfNumismatics, skos:Concept ;
+    skos:definition "The study of the coins, other numismatic items and numismatic history of the Ancient Roman World."@en ;
+    skos:exactMatch <http://vocab.getty.edu/aat/300020533> ;
+    skos:prefLabel "Roman Numismatics"@en .
+
+nm:islands_off_caria
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Region, skos:Concept ;
+    skos:broader nm:caria ;
+    skos:definition "The subregion of Islands off Caria in Caria as defined in B.V. Head, Historia Numorum (2nd ed., Oxford, 1911)."@en ;
+    skos:prefLabel "Islands off Caria"@en .
+
+nm:caria
+    dcterms:isPartOf nm:asia, nm:greek_numismatics ;
+    dcterms:source nm:head_1911 ;
+    a nmo:Region, skos:Concept ;
+    skos:broader nm:greek_asia ;
+    skos:definition "The region of Caria as defined in Head (1911)"@en ;
+    skos:prefLabel "Caria"@en ;
+    skos:relatedMatch <http://pleiades.stoa.org/places/991381> .
+
+nm:greek_asia
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Region, skos:Concept ;
+    skos:definition "The continent of Asia as defined in B.V. Head, Historia Numorum (2nd ed., Oxford, 1911)."@en ;
+    skos:prefLabel "Asia"@en .
+
+nm:asia
+    dcterms:isPartOf nm:asia ;
+    dcterms:source nm:head_1911 ;
+    a nmo:Region, skos:Concept ;
+    skos:definition "The region of Asia as defined in Head (1911)"@en ;
+    skos:exactMatch <http://dbpedia.org/resource/Asia_%28Roman_province%29>, <http://www.geonames.org/8378482>, <http://www.wikidata.org/entity/Q210718>, <https://www.freebase.com/m/04ldyr> ;
+    skos:prefLabel "Asia"@br, "Asia"@cy, "Asia"@da, "Asia"@en, "Asia"@eo, "Asia"@es, "Asia"@eu, "Asia"@fi, "Asia"@gl, "Asia"@id, "Asia"@it, "Asia"@la, "Asia"@ro, "Asia"@sv, "Asie"@cs, "Asie"@fr, "Asien"@de, "Asya"@tr, "Azija"@hr, "Azija"@lt, "Azija"@sh, "Azija"@sl, "Azië"@nl, "Azja"@pl, "Romersk Asia"@nb, "Àsia"@ca, "Ásia"@pt, "Ασία"@el, "Азия"@bg, "Азия"@ru, "Азија"@mk, "Азија"@sr, "Азія"@be, "Азія"@uk, "აზია"@ka, "アシア属州"@ja, "亚细亚"@zh, "아시아 속주"@ko .
+
+nm:islands_off_ionia
+    dcterms:isPartOf nm:greek_numismatics ;
+    a nmo:Region, skos:Concept ;
+    skos:broader nm:ionia ;
+    skos:definition "The subregion of Islands off Ionia in Ionia as defined in B.V. Head, Historia Numorum (2nd ed., Oxford, 1911)."@en ;
+    skos:prefLabel "Islands off Ionia"@en .
+
+nm:ionia
+    dcterms:isPartOf nm:asia, nm:greek_numismatics ;
+    dcterms:source nm:head_1911 ;
+    a nmo:Region, skos:Concept ;
+    geo:location <http://nomisma.org/id/ionia#this> ;
+    skos:broader nm:greek_asia ;
+    skos:definition "The region of Ionia as defined in Head (1911)"@en ;
+    skos:exactMatch <http://dbpedia.org/resource/Ionia>, <http://www.wikidata.org/entity/Q620874>, <https://www.freebase.com/m/0ck8l> ;
+    skos:prefLabel "Ionia"@br, "Ionia"@cy, "Ionia"@en, "Ionia"@id, "Ionia"@it, "Ionia"@la, "Ionia"@oc, "Ionia"@ro, "Ionia"@sw, "Ionie"@fr, "Ionien"@de, "Ionio"@eo, "Ionië"@nl, "Iónia"@sk, "Iónie"@cs, "Jonia"@es, "Jonia"@eu, "Jonia"@nb, "Jonia"@no, "Jonia"@pl, "Jonien"@sv, "Jonija"@hr, "Jonija"@lt, "Jonija"@sh, "Jonija"@sl, "Joonia"@et, "Joonia"@fi, "Jònia"@ca, "Jónía"@is, "Jônia"@pt, "Xonia"@gl, "İoniya"@az, "İyonya"@tr, "Ιωνία"@el, "Іонія"@be, "Іонія"@uk, "Јонија"@sr, "Иония"@kk, "Иония"@ru, "Йония"@bg, "איוניה"@he, "إيونية"@ar, "ایونیا"@fa, "आयोनिया"@mr, "ไอโอเนีย"@th, "イオニア"@ja, "愛奧尼亞"@zh, "이오니아"@ko ;
+    skos:relatedMatch <http://pleiades.stoa.org/places/550597> .
+
+nm:issuer
+    a skos:Concept, org:Role ;
+    skos:definition "The office holder responsible for the issuance of a coin. Can be distinct from the ruler in whose name a coin is issued."@en ;
+    skos:prefLabel "Issuer"@en .

@@ -5,22 +5,23 @@ Rails.application.routes.draw do
   mount Blacklight::Engine => '/'
 
   concern :searchable, Blacklight::Routes::Searchable.new
-
-  resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
-    concerns :searchable
-  end
-
   concern :exportable, Blacklight::Routes::Exportable.new
 
-  resources :solr_documents, only: [:show], path: '/catalog', controller: 'catalog' do
-    concerns :exportable
-  end
+  constraints id: /.+/ do
+    resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
+      concerns :searchable
+    end
 
-  resources :bookmarks do
-    concerns :exportable
+    resources :sparql_documents, only: [:show], path: '/catalog', controller: 'catalog' do
+      concerns :exportable
+    end
 
-    collection do
-      delete 'clear'
+    resources :bookmarks do
+      concerns :exportable
+
+      collection do
+        delete 'clear'
+      end
     end
   end
 

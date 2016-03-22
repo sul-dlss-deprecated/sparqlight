@@ -1,0 +1,351 @@
+<http://nomisma.org/id/-des_cos> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/-des_cos> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/-des_cos> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://nomisma.org/id/-des_cos> <http://www.w3.org/2004/02/skos/core#definition> "Magistrate attested on the Alexander coinage of Cos, c. 185-170 BC. See M. J. Price, Coinage in the Name of Alexander the Great and Philip Arrhidaeus (London/Zurich, 1994), no. 2506"@en .
+<http://nomisma.org/id/-des_cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "[...]ΔΗΣ"@el .
+<http://nomisma.org/id/-des_cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "[…]des"@en .
+<http://nomisma.org/id/-des_cos> <http://www.w3.org/ns/org#hasMembership> <http://nomisma.org/id/-des_cos#issuer> .
+<http://nomisma.org/id/-des_cos#issuer> <http://nomisma.org/ontology#hasEndDate> "-0170"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://nomisma.org/id/-des_cos#issuer> <http://nomisma.org/ontology#hasStartDate> "-0185"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://nomisma.org/id/-des_cos#issuer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/org#Membership> .
+<http://nomisma.org/id/-des_cos#issuer> <http://www.w3.org/ns/org#organization> <http://nomisma.org/id/cos> .
+<http://nomisma.org/id/-des_cos#issuer> <http://www.w3.org/ns/org#role> <http://nomisma.org/id/issuer> .
+<http://nomisma.org/id/-dokles_chios> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/-dokles_chios> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/-dokles_chios> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://nomisma.org/id/-dokles_chios> <http://www.w3.org/2004/02/skos/core#definition> "Magistrate attested on the Alexander coinage of Chios, c. 190-165 BC. See M. J. Price, Coinage in the Name of Alexander the Great and Philip Arrhidaeus (London/Zurich, 1994), no. 2408"@en .
+<http://nomisma.org/id/-dokles_chios> <http://www.w3.org/2004/02/skos/core#prefLabel> "[...]ΔΟΚΛΗΣ"@el .
+<http://nomisma.org/id/-dokles_chios> <http://www.w3.org/2004/02/skos/core#prefLabel> "[…]dokles"@en .
+<http://nomisma.org/id/-dokles_chios> <http://www.w3.org/ns/org#hasMembership> <http://nomisma.org/id/-dokles_chios#issuer> .
+<http://nomisma.org/id/-dokles_chios#issuer> <http://nomisma.org/ontology#hasEndDate> "-0165"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://nomisma.org/id/-dokles_chios#issuer> <http://nomisma.org/ontology#hasStartDate> "-0190"^^<http://www.w3.org/2001/XMLSchema#gYear> .
+<http://nomisma.org/id/-dokles_chios#issuer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/org#Membership> .
+<http://nomisma.org/id/-dokles_chios#issuer> <http://www.w3.org/ns/org#organization> <http://nomisma.org/id/chios> .
+<http://nomisma.org/id/-dokles_chios#issuer> <http://www.w3.org/ns/org#role> <http://nomisma.org/id/issuer> .
+<http://nomisma.org/id/10-as> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/10-as> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Denomination> .
+<http://nomisma.org/id/10-as> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/10-as> <http://www.w3.org/2004/02/skos/core#definition> "10 as"@fr .
+<http://nomisma.org/id/10-as> <http://www.w3.org/2004/02/skos/core#definition> "An ancient denomination with the value of 10 asses"@en .
+<http://nomisma.org/id/10-as> <http://www.w3.org/2004/02/skos/core#prefLabel> "10 as"@en .
+<http://nomisma.org/id/10-as> <http://www.w3.org/2004/02/skos/core#prefLabel> "10 as"@fr .
+<http://nomisma.org/id/10-as> <http://www.w3.org/2004/02/skos/core#prefLabel> "10 ases"@es .
+<http://nomisma.org/id/10-aureus> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/roman_numismatics> .
+<http://nomisma.org/id/10-aureus> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Denomination> .
+<http://nomisma.org/id/10-aureus> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/10-aureus> <http://www.w3.org/2004/02/skos/core#definition> "Roman denomination equivalent in value to 10 aurei."@en .
+<http://nomisma.org/id/10-aureus> <http://www.w3.org/2004/02/skos/core#prefLabel> "10 Aureus"@en .
+<http://nomisma.org/id/10-litra> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/10-litra> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Denomination> .
+<http://nomisma.org/id/10-litra> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/10-litra> <http://www.w3.org/2004/02/skos/core#definition> "10 litrai"@fr .
+<http://nomisma.org/id/10-litra> <http://www.w3.org/2004/02/skos/core#definition> "An ancient denomination with the value of 10 litrai"@en .
+<http://nomisma.org/id/10-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "10 litra"@en .
+<http://nomisma.org/id/10-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "10 litrai"@fr .
+<http://nomisma.org/id/10-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "10 litras"@es .
+<http://nomisma.org/id/10-stater> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/10-stater> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Denomination> .
+<http://nomisma.org/id/10-stater> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/10-stater> <http://www.w3.org/2004/02/skos/core#definition> "10 statère"@fr .
+<http://nomisma.org/id/10-stater> <http://www.w3.org/2004/02/skos/core#definition> "An ancient denomination with the value of 10 staters"@en .
+<http://nomisma.org/id/10-stater> <http://www.w3.org/2004/02/skos/core#prefLabel> "10 estateras"@es .
+<http://nomisma.org/id/10-stater> <http://www.w3.org/2004/02/skos/core#prefLabel> "10 stater"@en .
+<http://nomisma.org/id/10-stater> <http://www.w3.org/2004/02/skos/core#prefLabel> "10 statère"@fr .
+<http://nomisma.org/id/10-unit> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/10-unit> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Denomination> .
+<http://nomisma.org/id/10-unit> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/10-unit> <http://www.w3.org/2004/02/skos/core#definition> "10 unités"@fr .
+<http://nomisma.org/id/10-unit> <http://www.w3.org/2004/02/skos/core#definition> "An ancient denomination with the value of 10 units"@en .
+<http://nomisma.org/id/10-unit> <http://www.w3.org/2004/02/skos/core#prefLabel> "10 unidades"@es .
+<http://nomisma.org/id/10-unit> <http://www.w3.org/2004/02/skos/core#prefLabel> "10 unit"@en .
+<http://nomisma.org/id/10-unit> <http://www.w3.org/2004/02/skos/core#prefLabel> "10 unités"@fr .
+<http://nomisma.org/id/100-litra> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/100-litra> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Denomination> .
+<http://nomisma.org/id/100-litra> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/100-litra> <http://www.w3.org/2004/02/skos/core#definition> "100 litrai"@fr .
+<http://nomisma.org/id/100-litra> <http://www.w3.org/2004/02/skos/core#definition> "An ancient denomination with the value of 100 litrai"@en .
+<http://nomisma.org/id/100-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "100 litra"@en .
+<http://nomisma.org/id/100-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "100 litrai"@fr .
+<http://nomisma.org/id/100-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "100 litras"@es .
+<http://nomisma.org/id/12-as> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/roman_numismatics> .
+<http://nomisma.org/id/12-as> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Denomination> .
+<http://nomisma.org/id/12-as> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/12-as> <http://www.w3.org/2004/02/skos/core#definition> "Roman denomination equivalent in value to 12 asses."@en .
+<http://nomisma.org/id/12-as> <http://www.w3.org/2004/02/skos/core#prefLabel> "12 As"@en .
+<http://nomisma.org/id/12-litra> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/12-litra> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Denomination> .
+<http://nomisma.org/id/12-litra> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/12-litra> <http://www.w3.org/2004/02/skos/core#definition> "12 litrai"@fr .
+<http://nomisma.org/id/12-litra> <http://www.w3.org/2004/02/skos/core#definition> "An ancient denomination with the value of 12 litrai (dodekalitra)."@en .
+<http://nomisma.org/id/12-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "12 litra"@en .
+<http://nomisma.org/id/12-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "12 litrai"@fr .
+<http://nomisma.org/id/12-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "12 litras"@es .
+<http://nomisma.org/id/15-litra> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/15-litra> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Denomination> .
+<http://nomisma.org/id/15-litra> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/15-litra> <http://www.w3.org/2004/02/skos/core#definition> "15 litrai"@fr .
+<http://nomisma.org/id/15-litra> <http://www.w3.org/2004/02/skos/core#definition> "An ancient denomination with the value of 15 litrai"@en .
+<http://nomisma.org/id/15-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "15 litra"@en .
+<http://nomisma.org/id/15-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "15 litrai"@fr .
+<http://nomisma.org/id/15-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "15 litras"@es .
+<http://nomisma.org/id/16-drachm> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/16-drachm> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Denomination> .
+<http://nomisma.org/id/16-drachm> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/16-drachm> <http://www.w3.org/2004/02/skos/core#definition> "16 drachmes"@fr .
+<http://nomisma.org/id/16-drachm> <http://www.w3.org/2004/02/skos/core#definition> "An ancient denomination with the value of 16 drachms"@en .
+<http://nomisma.org/id/16-drachm> <http://www.w3.org/2004/02/skos/core#prefLabel> "16 drachm"@en .
+<http://nomisma.org/id/16-drachm> <http://www.w3.org/2004/02/skos/core#prefLabel> "16 drachmes"@fr .
+<http://nomisma.org/id/16-drachm> <http://www.w3.org/2004/02/skos/core#prefLabel> "16 dracmas"@es .
+<http://nomisma.org/id/16-litra> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/16-litra> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Denomination> .
+<http://nomisma.org/id/16-litra> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/16-litra> <http://www.w3.org/2004/02/skos/core#definition> "16 litrai"@fr .
+<http://nomisma.org/id/16-litra> <http://www.w3.org/2004/02/skos/core#definition> "An ancient denomination with the value of 16 litrai"@en .
+<http://nomisma.org/id/16-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "16 litra"@en .
+<http://nomisma.org/id/16-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "16 litrai"@fr .
+<http://nomisma.org/id/16-litra> <http://www.w3.org/2004/02/skos/core#prefLabel> "16 litras"@es .
+<http://nomisma.org/id/2-daric> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/2-daric> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Denomination> .
+<http://nomisma.org/id/2-daric> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/2-daric> <http://www.w3.org/2004/02/skos/core#definition> "2 dariques"@fr .
+<http://nomisma.org/id/2-daric> <http://www.w3.org/2004/02/skos/core#definition> "An ancient denomination with the value of 2 darics"@en .
+<http://nomisma.org/id/2-daric> <http://www.w3.org/2004/02/skos/core#prefLabel> "Doble dárico"@es .
+<http://nomisma.org/id/2-daric> <http://www.w3.org/2004/02/skos/core#prefLabel> "Double daric"@en .
+<http://nomisma.org/id/2-daric> <http://www.w3.org/2004/02/skos/core#prefLabel> "Double darique"@fr .
+<http://nomisma.org/id/2-onkia> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/2-onkia> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Denomination> .
+<http://nomisma.org/id/2-onkia> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/2-onkia> <http://www.w3.org/2004/02/skos/core#definition> "2 onkia"@fr .
+<http://nomisma.org/id/2-onkia> <http://www.w3.org/2004/02/skos/core#definition> "An ancient denomination with the value of 2 onkiai"@en .
+<http://nomisma.org/id/2-onkia> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://nomisma.org/id/biunx> .
+<http://nomisma.org/id/2-onkia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Hexas"@en .
+<http://nomisma.org/id/2-onkia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Hexas"@es .
+<http://nomisma.org/id/2-onkia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Hexas"@fr .
+<http://nomisma.org/id/biunx> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/biunx> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Denomination> .
+<http://nomisma.org/id/biunx> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/biunx> <http://www.w3.org/2004/02/skos/core#definition> "2 onkia"@fr .
+<http://nomisma.org/id/biunx> <http://www.w3.org/2004/02/skos/core#definition> "An ancient denomination with the value of 2 onkiai"@en .
+<http://nomisma.org/id/biunx> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://nomisma.org/id/2-onkia> .
+<http://nomisma.org/id/biunx> <http://www.w3.org/2004/02/skos/core#prefLabel> "Biunx"@en .
+<http://nomisma.org/id/biunx> <http://www.w3.org/2004/02/skos/core#prefLabel> "Biunx"@es .
+<http://nomisma.org/id/biunx> <http://www.w3.org/2004/02/skos/core#prefLabel> "Biunx"@fr .
+<http://nomisma.org/id/cos> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/cos> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Mint> .
+<http://nomisma.org/id/cos> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/cos> <http://www.w3.org/2003/01/geo/wgs84_pos#location> <http://nomisma.org/id/cos#this> .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#altLabel> "Kos"@en .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#broader> <http://nomisma.org/id/islands_off_caria> .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://collection.britishmuseum.org/id/place/x27202> .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://d-nb.info/gnd/4032541-6> .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://dbpedia.org/resource/Kos> .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://pleiades.stoa.org/places/599728> .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://vocab.getty.edu/tgn/7010871> .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://www.geonames.org/8133957> .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://www.geonames.org/9847674> .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://www.wikidata.org/entity/Q187027> .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#closeMatch> <https://www.freebase.com/m/01kv_0> .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#definition> "The mint at the ancient site of Cos on Cos, Caria."@en .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Coo"@it .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Cos"@en .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Cos"@es .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Cos"@fr .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Cos"@la .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Cos - Κως"@gl .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Cós"@pt .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@br .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@ca .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@cy .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@da .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@de .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@et .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@fi .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@fo .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@fy .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@hr .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@ie .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@li .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@nb .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@nl .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@nn .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@pl .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@ro .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@sh .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@sk .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@sl .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@sv .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kos"@vi .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kosz"@hu .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kós"@cs .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Pulau Kos"@id .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "İstanköy"@tr .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Κως"@el .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Кос"@be .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Кос"@bg .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Кос"@ru .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Кос"@sr .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "Кос"@uk .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "קוס"@he .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "كوس"@ar .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "کوس"@fa .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "کوس"@ur .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "コス島"@ja .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "科斯岛"@zh .
+<http://nomisma.org/id/cos> <http://www.w3.org/2004/02/skos/core#prefLabel> "코스 섬"@ko .
+<http://nomisma.org/id/chios> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/chios> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Mint> .
+<http://nomisma.org/id/chios> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/chios> <http://www.w3.org/2003/01/geo/wgs84_pos#location> <http://nomisma.org/id/chios#this> .
+<http://nomisma.org/id/chios> <http://www.w3.org/2004/02/skos/core#altLabel> "Khios"@en .
+<http://nomisma.org/id/chios> <http://www.w3.org/2004/02/skos/core#broader> <http://nomisma.org/id/islands_off_ionia> .
+<http://nomisma.org/id/chios> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://collection.britishmuseum.org/id/place/x28201> .
+<http://nomisma.org/id/chios> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://dbpedia.org/resource/Chios_(town)> .
+<http://nomisma.org/id/chios> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://pleiades.stoa.org/places/550496> .
+<http://nomisma.org/id/chios> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://vocab.getty.edu/tgn/1042072> .
+<http://nomisma.org/id/chios> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://www.geonames.org/259972> .
+<http://nomisma.org/id/chios> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://www.geonames.org/259973> .
+<http://nomisma.org/id/chios> <http://www.w3.org/2004/02/skos/core#closeMatch> <http://www.wikidata.org/entity/Q748832> .
+<http://nomisma.org/id/chios> <http://www.w3.org/2004/02/skos/core#closeMatch> <https://www.freebase.com/m/0b40ng> .
+<http://nomisma.org/id/chios> <http://www.w3.org/2004/02/skos/core#definition> "The mint at the ancient site of Chios on Chios, off Ionia."@en .
+<http://nomisma.org/id/roman_numismatics> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#FieldOfNumismatics> .
+<http://nomisma.org/id/roman_numismatics> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/roman_numismatics> <http://www.w3.org/2004/02/skos/core#definition> "The study of the coins, other numismatic items and numismatic history of the Ancient Roman World."@en .
+<http://nomisma.org/id/roman_numismatics> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://vocab.getty.edu/aat/300020533> .
+<http://nomisma.org/id/roman_numismatics> <http://www.w3.org/2004/02/skos/core#prefLabel> "Roman Numismatics"@en .
+<http://nomisma.org/id/islands_off_caria> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/islands_off_caria> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Region> .
+<http://nomisma.org/id/islands_off_caria> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/islands_off_caria> <http://www.w3.org/2004/02/skos/core#broader> <http://nomisma.org/id/caria> .
+<http://nomisma.org/id/islands_off_caria> <http://www.w3.org/2004/02/skos/core#definition> "The subregion of Islands off Caria in Caria as defined in B.V. Head, Historia Numorum (2nd ed., Oxford, 1911)."@en .
+<http://nomisma.org/id/islands_off_caria> <http://www.w3.org/2004/02/skos/core#prefLabel> "Islands off Caria"@en .
+<http://nomisma.org/id/caria> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/asia> .
+<http://nomisma.org/id/caria> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/caria> <http://purl.org/dc/terms/source> <http://nomisma.org/id/head_1911> .
+<http://nomisma.org/id/caria> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Region> .
+<http://nomisma.org/id/caria> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/caria> <http://www.w3.org/2004/02/skos/core#broader> <http://nomisma.org/id/greek_asia> .
+<http://nomisma.org/id/caria> <http://www.w3.org/2004/02/skos/core#definition> "The region of Caria as defined in Head (1911)"@en .
+<http://nomisma.org/id/caria> <http://www.w3.org/2004/02/skos/core#prefLabel> "Caria"@en .
+<http://nomisma.org/id/caria> <http://www.w3.org/2004/02/skos/core#relatedMatch> <http://pleiades.stoa.org/places/991381> .
+<http://nomisma.org/id/greek_asia> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/greek_asia> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Region> .
+<http://nomisma.org/id/greek_asia> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/greek_asia> <http://www.w3.org/2004/02/skos/core#definition> "The continent of Asia as defined in B.V. Head, Historia Numorum (2nd ed., Oxford, 1911)."@en .
+<http://nomisma.org/id/greek_asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@en .
+<http://nomisma.org/id/asia> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/asia> .
+<http://nomisma.org/id/asia> <http://purl.org/dc/terms/source> <http://nomisma.org/id/head_1911> .
+<http://nomisma.org/id/asia> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Region> .
+<http://nomisma.org/id/asia> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#definition> "The region of Asia as defined in Head (1911)"@en .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://dbpedia.org/resource/Asia_%28Roman_province%29> .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://www.geonames.org/8378482> .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://www.wikidata.org/entity/Q210718> .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#exactMatch> <https://www.freebase.com/m/04ldyr> .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@br .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@cy .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@da .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@en .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@eo .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@es .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@eu .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@fi .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@gl .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@id .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@it .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@la .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@ro .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asia"@sv .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asie"@cs .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asie"@fr .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asien"@de .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Asya"@tr .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Azija"@hr .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Azija"@lt .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Azija"@sh .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Azija"@sl .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Azië"@nl .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Azja"@pl .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Romersk Asia"@nb .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Àsia"@ca .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ásia"@pt .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ασία"@el .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Азия"@bg .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Азия"@ru .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Азија"@mk .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Азија"@sr .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Азія"@be .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Азія"@uk .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "აზია"@ka .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "アシア属州"@ja .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "亚细亚"@zh .
+<http://nomisma.org/id/asia> <http://www.w3.org/2004/02/skos/core#prefLabel> "아시아 속주"@ko .
+<http://nomisma.org/id/islands_off_ionia> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/islands_off_ionia> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Region> .
+<http://nomisma.org/id/islands_off_ionia> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/islands_off_ionia> <http://www.w3.org/2004/02/skos/core#broader> <http://nomisma.org/id/ionia> .
+<http://nomisma.org/id/islands_off_ionia> <http://www.w3.org/2004/02/skos/core#definition> "The subregion of Islands off Ionia in Ionia as defined in B.V. Head, Historia Numorum (2nd ed., Oxford, 1911)."@en .
+<http://nomisma.org/id/islands_off_ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Islands off Ionia"@en .
+<http://nomisma.org/id/ionia> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/asia> .
+<http://nomisma.org/id/ionia> <http://purl.org/dc/terms/isPartOf> <http://nomisma.org/id/greek_numismatics> .
+<http://nomisma.org/id/ionia> <http://purl.org/dc/terms/source> <http://nomisma.org/id/head_1911> .
+<http://nomisma.org/id/ionia> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://nomisma.org/ontology#Region> .
+<http://nomisma.org/id/ionia> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2003/01/geo/wgs84_pos#location> <http://nomisma.org/id/ionia#this> .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#broader> <http://nomisma.org/id/greek_asia> .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#definition> "The region of Ionia as defined in Head (1911)"@en .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://dbpedia.org/resource/Ionia> .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://www.wikidata.org/entity/Q620874> .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#exactMatch> <https://www.freebase.com/m/0ck8l> .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ionia"@br .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ionia"@cy .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ionia"@en .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ionia"@id .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ionia"@it .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ionia"@la .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ionia"@oc .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ionia"@ro .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ionia"@sw .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ionie"@fr .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ionien"@de .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ionio"@eo .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ionië"@nl .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Iónia"@sk .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Iónie"@cs .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Jonia"@es .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Jonia"@eu .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Jonia"@nb .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Jonia"@no .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Jonia"@pl .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Jonien"@sv .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Jonija"@hr .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Jonija"@lt .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Jonija"@sh .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Jonija"@sl .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Joonia"@et .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Joonia"@fi .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Jònia"@ca .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Jónía"@is .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Jônia"@pt .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Xonia"@gl .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "İoniya"@az .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "İyonya"@tr .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ιωνία"@el .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Іонія"@be .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Іонія"@uk .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Јонија"@sr .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Иония"@kk .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Иония"@ru .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "Йония"@bg .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "איוניה"@he .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "إيونية"@ar .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "ایونیا"@fa .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "आयोनिया"@mr .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "ไอโอเนีย"@th .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "イオニア"@ja .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "愛奧尼亞"@zh .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#prefLabel> "이오니아"@ko .
+<http://nomisma.org/id/ionia> <http://www.w3.org/2004/02/skos/core#relatedMatch> <http://pleiades.stoa.org/places/550597> .
+<http://nomisma.org/id/issuer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://nomisma.org/id/issuer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/org#Role> .
+<http://nomisma.org/id/issuer> <http://www.w3.org/2004/02/skos/core#definition> "The office holder responsible for the issuance of a coin. Can be distinct from the ruler in whose name a coin is issued."@en .
+<http://nomisma.org/id/issuer> <http://www.w3.org/2004/02/skos/core#prefLabel> "Issuer"@en .
