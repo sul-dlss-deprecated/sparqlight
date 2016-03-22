@@ -3,7 +3,9 @@
 
 development:
   adapter: Sparql
-  url: <%= ENV['SPARQL_URL'] || "http://127.0.0.1/FIXME" %>
+  url: <%= ENV['SPARQL_URL'] %>
+  repository: "mongo"
+  collection: "nomisma_full"
 test: &test
   adapter: Sparql
   repository: "mongo"
