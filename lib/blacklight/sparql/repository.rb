@@ -1,5 +1,6 @@
 require 'sparql/client'
 require 'blacklight/sparql'
+require 'json/ld'
 
 module Blacklight::Sparql
   class Repository < Blacklight::AbstractRepository

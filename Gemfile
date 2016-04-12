@@ -1,10 +1,7 @@
 source 'https://rubygems.org'
 
+gemspec
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5.1'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -35,10 +32,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'rspec'
-  gem 'rspec-rails'
-  gem 'rspec-its'
-  gem 'rspec-collection_matchers'
 end
 
 group :development do
@@ -51,18 +44,3 @@ end
 
 gem 'blacklight', '6.0.1'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
-
-# RDF/SPARQL
-gem 'rdf',            '~> 1.99'
-gem 'rdf-turtle',     '~> 1.99'
-gem 'sparql-client',  '~> 1.99'
-gem 'sparql',         '~> 1.99'
-gem 'json-ld',        '~> 1.99'
-
-group :development, :test do
-  #gem 'rdf-do',       '~> 1.99' # Using DataObjects for SPARQL store
-  #gem 'data_objects', '~> 0.10'
-  #gem 'do_sqlite3' ,  '~> 0.10'
-  gem 'rdf-mongo'
-  gem 'bson_ext'
-end

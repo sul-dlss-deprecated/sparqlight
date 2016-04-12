@@ -1,3 +1,7 @@
+require 'blacklight/sparql/version'
+
+##
+# SparqLight
 module Blacklight
   module Sparql
     autoload :Document, 'blacklight/sparql/document'
