@@ -227,17 +227,17 @@ module Blacklight::Sparql
           SPARQL::Client.new(connection_config[:url])
         elsif connection_config[:repository]
           # Create a new repository to use as client
-          case repo_config = connection_config[:repository]
+          case repo_uri = connection_config[:repository]
           when /sqlite3|postgres/
             require 'rdf/do'
-            require 'do_sqlite3' if repo_config.include?("sqlite3")
-            require 'do_postgres' if repo_config.include?("postgres")
+            require 'do_sqlite3' if repo_uri.include?("sqlite3")
+            require 'do_postgres' if repo_uri.include?("postgres")
 
             # Open a local repository and use as a SPARQL client
-            SPARQL::Client.new RDF::DataObjects::Repository.new(repo_config)
+            SPARQL::Client.new RDF::DataObjects::Repository.new(uri: repo_uri, logger: false)
           when /mongo/
             require 'rdf/mongo'
-            SPARQL::Client.new RDF::Mongo::Repository.new(connection_config)
+            SPARQL::Client.new RDF::Mongo::Repository.new(uri: repo_uri, logger: false)
           else
           end
         else

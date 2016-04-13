@@ -1,15 +1,15 @@
 # SPARQL::Client configuration.
-# Production references the SPARQL endpoint. Development and test use the local SQLite3 service initialized with test data
+# Production references the SPARQL endpoint. Development and test use the local Mongo service initialized with test data
 
 development:
   adapter: Sparql
   url: <%= ENV['SPARQL_URL'] %>
-  repository: "mongo"
-  collection: "nomisma_full"
+  repository: "mongodb://127.0.0.1:27017/quadb/nomisma_full"
 test: &test
   adapter: Sparql
-  repository: "mongo"
-  collection: "nomisma"
+  url: <%= ENV['SPARQL_URL'] %>
+  repository: "mongodb://127.0.0.1:27017/quadb/nomisma"
 production:
   adapter: Sparql
   url: <%= ENV['SPARQL_URL'] || "http://127.0.0.1/FIXME" %>
+  repository: "mongodb://127.0.0.1:27017/quadb/nomisma_full"

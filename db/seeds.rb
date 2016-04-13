@@ -11,6 +11,7 @@ connection = Blacklight.default_index.connection
 repo = connection.url
 if repo.is_a?(RDF::Repository)
   repo.clear!
+  require 'rdf/turtle'
   RDF::Reader.open(Rails.env == "test" ? "db/nomisma.ttl" : "db/nomisma-full.ttl") do |reader|
     reader.each_statement do |statement|
       begin
