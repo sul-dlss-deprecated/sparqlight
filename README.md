@@ -56,7 +56,7 @@ Or, if you don't want/need launchctl, you can just run:
 
     bigdata start
 
-Load data using the blazegraph UI at `http://localhost:9999/bigdata/#update`. Drag `etc/nomisma-full.ttl` into update window and select `Update` control.
+Load data using the blazegraph UI at `http://localhost:9999/bigdata/#update`. Browse the file system to select `db/nomisma-full.ttl` and select `Update` control.
 
 Subsequently, perform rails initialization:
 
