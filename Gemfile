@@ -82,18 +82,17 @@ gem 'blacklight-marc', '~> 6.1'
 # SPARQLITE adds these gems
 
 # RDF/SPARQL
-gem 'rdf',            '~> 1.99'
-gem 'rdf-turtle',     '~> 1.99'
-gem 'sparql-client',  '~> 1.99'
-gem 'sparql',         '~> 1.99'
-gem 'json-ld',        '~> 1.99'
+gem 'rdf'
+gem 'rdf-turtle'
+gem 'sparql-client'
+gem 'sparql'
+gem 'json-ld'
 
 group :development, :test do
   #gem 'rdf-do',       '~> 1.99' # Using DataObjects for SPARQL store
   #gem 'data_objects', '~> 0.10'
   #gem 'do_sqlite3' ,  '~> 0.10'
-  gem 'rdf-mongo'
-  gem 'bson_ext'
+  gem 'rdf-mongo', git: 'https://github.com/ruby-rdf/rdf-mongo'
 
   gem 'rspec'
   gem 'rspec-rails'
