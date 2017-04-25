@@ -2,8 +2,6 @@ Rails.application.routes.draw do
 
   root to: 'catalog#index'
 
-  devise_for :users
-
   mount Blacklight::Engine => '/'
 
   concern :exportable, Blacklight::Routes::Exportable.new
