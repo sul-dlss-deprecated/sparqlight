@@ -6,6 +6,7 @@ rescue LoadError
   puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
 end
 
-require File.expand_path('../config/application', __FILE__)
+require_relative 'config/application'
 
 Rails.application.load_tasks
+
