@@ -15,8 +15,8 @@ if repo.is_a?(RDF::Repository)
     reader.each_statement do |statement|
       begin
         repo.insert statement
-      rescue
-        $stderr.write "e"
+      rescue Exception => e
+        $stderr.write e.inspect
       end
     end
   end
