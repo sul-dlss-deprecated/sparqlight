@@ -101,3 +101,30 @@ Run the server in production mode pointing to the BlazeGraph SPARQL endpoint:
 
     SPARQL_URL=http://localhost:9999/blazegraph/namespace/sparqlite/sparql RAILS_ENV=production bundle exec rails server
 
+### Blazegraph for tests
+
+* Create a new blazegraph namespace, say `sparqlite-test`, using the defaults for a `triples` KB, and select 'use' it.
+* Load data using the blazegraph UI at http://localhost:9999/blazegraph/#update
+  * Browse to `db/nomisma.ttl` and select `Update`.  Once the data is loaded into blazegraph, return to the sparqlite console to prepare and run specs:
+
+```
+export SPARQL_URL=http://localhost:9999/blazegraph/namespace/sparqlite-test/sparql
+RAILS_ENV=test bundle exec rake db:test:prepare
+RAILS_ENV=test bundle exec rake db:seed # may not work as expected, but manual loading is done as above
+RAILS_ENV=test bundle exec rake
+
+# To view the test data in the application:
+RAILS_ENV=development bundle exec rails s
+```
+
+### Blazegraph for development (demonstrations)
+
+* Exploring the application is much faster using blazegraph
+* Create a new blazegraph namespace, say `sparqlite-development`, using the defaults for a `triples` KB, and select 'use' it.
+* Load data using the blazegraph UI at http://localhost:9999/blazegraph/#update
+  * Browse to `db/nomisma_full.ttl` and select `Update`.  Once the data is loaded into blazegraph, return to the sparqlite console to prepare and run specs:
+
+```
+export SPARQL_URL=http://localhost:9999/blazegraph/namespace/sparqlite-development/sparql
+bundle exec rails s
+```
