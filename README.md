@@ -35,7 +35,13 @@ Subsequently, perform rails initialization:
 * bundle exec rake db:migrate
 * bundle exec rake db:seed
 
-Tests can be run using `rspec`
+Tests can be run using:
+
+```sh
+RAILS_ENV=test bundle exec rake db:test:prepare
+RAILS_ENV=test bundle exec rake db:seed
+RAILS_ENV=test bundle exec rake
+```
 
 Service can be run locally using `bundle exec rails server`
 
