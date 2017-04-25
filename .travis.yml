@@ -9,7 +9,7 @@ env:
 global_env:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
 rvm:
-  - 2.2.4
+  - 2.4.1
 script:
   - bundle exec rake db:test:prepare
   - bundle exec rake db:seed
