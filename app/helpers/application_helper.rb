@@ -1,9 +1,11 @@
 module ApplicationHelper
-  def render_topics(options = {})
 
-    # TODO: figure out how the SparqlConfig maps to this :value?
-    # puts options[:value].inspect
+  def render_genre(options = {})
+    options[:value].map { |val| val['rdfs:label'] }.uniq.join(', ')
+  end
 
+  def render_subjects(options = {})
     options[:value].map { |val| val['mads:authoritativeLabel'] }.join(', ')
   end
+
 end
