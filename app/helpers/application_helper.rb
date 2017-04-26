@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def render_numismatics(options = {})
-    options[:value].map { |val| val["skos:prefLabel"] }.join(', ')
+  def render_subject(options = {})
+    options[:value].map { |val| val["bf:subject"] }.join(', ')
   end
 end
