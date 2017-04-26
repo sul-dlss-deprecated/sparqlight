@@ -13,12 +13,21 @@ module ApplicationHelper
     collect_values(options, 'rdfs:label').uniq.join('; ')
   end
 
+  def render_identifier(options = {})
+    collect_values(options, 'rdf:value').join('; ')
+  end
+
   def render_rdfs_label(options = {})
     collect_values(options, 'rdfs:label').join('; ')
   end
 
   def render_subject(options = {})
-    collect_values(options, 'mads:authoritativeLabel').join('; ')
+    subjects = options[:value].map do |val|
+                 id = val['@id']
+                 labels = [val['mads:authoritativeLabel']].flatten
+                 labels.map { |label| link_to label, id }
+               end.flatten.uniq.compact
+    safe_join(subjects, '<br />'.html_safe)
   end
 
 end
