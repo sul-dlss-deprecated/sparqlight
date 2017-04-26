@@ -9,6 +9,7 @@ module SparqlConfig
   BIBFRAME = 'http://id.loc.gov/ontologies/bibframe/'.freeze
   DCTERMS = 'http://purl.org/dc/terms/'.freeze
   MADSRDF = 'http://www.loc.gov/mads/rdf/v1#'.freeze
+  RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'.freeze
   RDFS = 'http://www.w3.org/2000/01/rdf-schema#'.freeze
   SKOS = 'http://www.w3.org/2004/02/skos/core#'.freeze
 
@@ -17,6 +18,7 @@ module SparqlConfig
     bf: BIBFRAME,
     dcterms: DCTERMS,
     mads: MADSRDF,
+    rdf: RDF,
     rdfs: RDFS,
     skos: SKOS,
   }.freeze
@@ -53,6 +55,7 @@ module SparqlConfig
         "bf": "#{BIBFRAME}",
         "dcterms": "#{DCTERMS}",
         "mads": "#{MADSRDF}",
+        "rdf": "#{RDF}",
         "rdfs": "#{RDFS}",
         "skos": "#{SKOS}"
       },
@@ -91,7 +94,7 @@ module SparqlConfig
                            variable: '?genreLabel',
                            patterns: [
                              '?id bf:genreForm ?genre',
-                             '?genre rdfs:label ?genreLabel',
+                             '?genre rdfs:label ?genreLabel'
                            ],
                            filter_language: false
 
@@ -145,8 +148,32 @@ module SparqlConfig
                            variable: '?genreLabel',
                            helper_method: 'render_genre',
                            patterns: [
-                               '?id bf:genreForm ?genre',
-                               '?genre rdfs:label ?genreLabel',
+                             '?id bf:genreForm ?genre',
+                             '?genre rdfs:label ?genreLabel'
+                           ],
+                           filter_language: false
+
+    config.add_index_field 'identifier',
+                           label: 'Identifiers',
+                           field: 'bf:identifiedBy',
+                           variable: '?idValue',
+                           helper_method: 'render_identifier',
+                           patterns: [
+                             '?id bf:identifiedBy ?identifier',
+                             '?identifier rdf:value ?idValue'
+                           ],
+                           filter_language: false
+
+    config.add_index_field 'subject',
+                           label: 'Subjects',
+                           field: 'bf:subject',
+                           variable: '?topicLabel',
+                           helper_method: 'render_subject',
+                           patterns: [
+                             '?id a bf:Work',
+                             '?id bf:subject ?topic',
+                             '?topic a bf:Topic',
+                             '?topic mads:authoritativeLabel ?topicLabel'
                            ],
                            filter_language: false
 
@@ -158,19 +185,6 @@ module SparqlConfig
                            patterns: [
                              '?id bf:title ?title',
                              '?title rdfs:label ?titleLabel'
-                           ],
-                           filter_language: false
-
-    config.add_index_field 'subject',
-                           label: 'Subjects',
-                           field: 'bf:subject',
-                           variable: '?topicLabel',
-                           helper_method: 'render_subject',
-                           patterns: [
-                               '?id a bf:Work',
-                               '?id bf:subject ?topic',
-                               '?topic a bf:Topic',
-                               '?topic mads:authoritativeLabel ?topicLabel'
                            ],
                            filter_language: false
   end
@@ -196,8 +210,33 @@ module SparqlConfig
                           variable: '?genreLabel',
                           helper_method: 'render_genre',
                           patterns: [
-                              '?id bf:genreForm ?genre',
-                              '?genre rdfs:label ?genreLabel',
+                            '?id bf:genreForm ?genre',
+                            '?genre rdfs:label ?genreLabel'
+                          ],
+                          filter_language: false
+
+    # TODO: cannot add this without losing all the facets - don't know why.
+    # config.add_show_field 'identifier',
+    #                       label: 'Identifiers',
+    #                       field: 'bf:identifiedBy',
+    #                       variable: '?idValue',
+    #                       helper_method: 'render_identifier',
+    #                       patterns: [
+    #                         '?id bf:identifiedBy ?identifier',
+    #                         '?identifier rdf:value ?idValue'
+    #                       ],
+    #                       filter_language: false
+
+    config.add_show_field 'subject',
+                          label: 'Subjects',
+                          field: 'bf:subject',
+                          variable: '?topicLabel',
+                          helper_method: 'render_subject',
+                          patterns: [
+                            '?id a bf:Work',
+                            '?id bf:subject ?topic',
+                            '?topic a bf:Topic',
+                            '?topic mads:authoritativeLabel ?topicLabel'
                           ],
                           filter_language: false
 
@@ -209,19 +248,6 @@ module SparqlConfig
                           patterns: [
                             '?id bf:title ?title',
                             '?title rdfs:label ?titleLabel'
-                          ],
-                          filter_language: false
-
-    config.add_show_field 'subject',
-                          label: 'Subjects',
-                          field: 'bf:subject',
-                          variable: '?topicLabel',
-                          helper_method: 'render_subject',
-                          patterns: [
-                              '?id a bf:Work',
-                              '?id bf:subject ?topic',
-                              '?topic a bf:Topic',
-                              '?topic mads:authoritativeLabel ?topicLabel'
                           ],
                           filter_language: false
   end
