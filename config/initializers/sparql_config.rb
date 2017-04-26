@@ -200,7 +200,9 @@ module SparqlConfig
                           patterns: [
                             '?id bf:contribution ?contribution',
                             '?contribution bf:agent ?agent',
-                            '?agent rdfs:label ?agentLabel'
+                            '?agent rdfs:label ?agentLabel',
+                            '?agent bf:identifiedBy ?agentID',
+                            '?agentID ?p ?o'
                           ],
                           filter_language: false
 

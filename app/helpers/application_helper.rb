@@ -1,12 +1,30 @@
 module ApplicationHelper
 
+  ##
+  ## TODO: Add RDFa to these HTML outputs
+  ##
+
   def collect_values(options, field)
     options[:value].map { |val| val[field] }.compact
   end
 
   def render_contribution(options = {})
     agents = collect_values(options, 'bf:agent')
-    agents.map {|agent| agent['rdfs:label'] }.join('; ')
+    agent_links = agents.map do |agent|
+                    id = agent['@id']
+                    label = agent['rdfs:label']
+                    links = []
+                    links << link_to('LOC', id) if id =~ /loc.gov/i
+                    identities = [agent['bf:identifiedBy']].flatten
+                    identities.each do |i|
+                      value = i['rdf:value']
+                      links << link_to('ISNI', value) if value =~ /isni.org/i
+                      links << link_to('VIAF', value) if value =~ /viaf.org/i
+                    end
+                    links = safe_join(links, ', '.html_safe)
+                    "#{label} (#{links})".html_safe
+                  end.compact
+    safe_join(agent_links, '<br />'.html_safe)
   end
 
   def render_genre(options = {})
