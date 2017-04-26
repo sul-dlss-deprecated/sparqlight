@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 module SparqlConfig
 
-  ENTITY_CLASS = "bf:Instance".freeze
+  ENTITY_CLASS = "bf:Work".freeze
 
   BASE_URI = 'http://ld4p-test.stanford.edu/'.freeze
 
@@ -21,6 +21,19 @@ module SparqlConfig
 
   # One method to rule them all
   def self.sparql_config(config)
+    # Class for sending and receiving requests from a search index
+    config.repository_class = Blacklight::Sparql::Repository
+
+    # Class for converting Blacklight's url parameters to into request
+    # parameters for the search index
+    config.search_builder_class = ::SearchBuilder
+
+    # Model that describes a Document
+    config.document_model = ::SparqlDocument
+
+    # Model that maps search index responses to the blacklight response model
+    config.response_model = Blacklight::Sparql::Response
+
     config.sparql_prefixes = SparqlConfig::SPARQL_PREFIXES
     config.entity_class = SparqlConfig::ENTITY_CLASS
     config.frame = SparqlConfig.json_frame
@@ -38,9 +51,7 @@ module SparqlConfig
         "bf": "#{BIBFRAME}",
         "dcterms": "#{DCTERMS}",
         "mads": "#{MADSRDF}",
-        "skos": "#{SKOS}",
-        "skos:prefLabel": {"@language": "en"},
-        "skos:definition": {"@language": "en"}
+        "skos": "#{SKOS}"
       },
       "@type": "#{ENTITY_CLASS}"
     })
@@ -50,21 +61,24 @@ module SparqlConfig
   # * _field name_ is predicate or other distinguishing identifier
   # * `label` used for human-readible form label
   # * `variable` is the SPARQL variable associated with the field
-  # * `patterns` (optional) are SPARQL triple patterns necessary to navigate between `?id` and `variable`. Defaults to a pattern composed of `?id`, `predicate` and `variable`.
-  # * `predicate` defaults to _field name_, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
-  # * `filter_language` set to true, if the configured language should be used as a filter for the variable result if it is a language-tagged literal.
+  # * `patterns` (optional) are SPARQL triple patterns necessary to navigate
+  #    between `?id` and `variable`. Defaults to a pattern composed of
+  #   `?id`, `predicate` and `variable`.
+  # * `predicate` defaults to _field name_, but may be set separately if
+  #    multiple fields use the same predicate (i.e., in different entities)
+  # * `filter_language` set to true, if the configured language should be used as
+  #    a filter for the variable result if it is a language-tagged literal.
   def self.facet_fields(config)
-    config.add_facet_field 'topic_label',
+    config.add_facet_field 'topics',
                            label: 'Topics',
                            variable: '?topicLabel',
                            patterns: [
-                             '?id a bf:Instance',
-                             '?id bf:instanceOf ?work',
-                             '?work bf:subject ?topic',
+                             '?id a bf:Work',
+                             '?id bf:subject ?topic',
                              '?topic a bf:Topic',
                              '?topic mads:authoritativeLabel ?topicLabel'
                            ],
-                           filter_language: true
+                           filter_language: false
 
     # Have BL send all facet field names to Sparql, which has been the default
     # previously. Simply remove these lines if you'd rather use Sparql request
@@ -78,64 +92,42 @@ module SparqlConfig
   #   The ordering of the field names is the order of the display
   # * _field name_ is predicate or other distinguishing identifier
   # * `variable` is the SPARQL variable associated with the field
-  # * `predicate` defaults to field name, but may be set separately if multiple fields use the same predicate (i.e., in different entities)
-  # * `patterns` (optional) are SPARQL triple patterns necessary to navigate between `?id` and `variable`. They default to using the _field name_ as the predicate relating `?id` and `variable`. These are also used in CONSTRUCT when generating RDF triples to frame.
-  # * `filter_language` set to true, if the configured language should be used as a filter for the variable result if it is a language-tagged literal.
+  # * `predicate` defaults to field name, but may be set separately if multiple
+  #   fields use the same predicate (i.e., in different entities)
+  # * `patterns` (optional) are SPARQL triple patterns necessary to navigate
+  #   between `?id` and `variable`. They default to using the _field name_ as
+  #   the predicate relating `?id` and `variable`. These are also used in
+  #   CONSTRUCT when generating RDF triples to frame.
+  # * `filter_language` set to true, if the configured language should be used
+  #   as a filter for the variable result if it is a language-tagged literal.
   def self.index_fields(config)
-    # config.add_index_field 'skos:prefLabel',
-    #                        label: 'Label',
-    #                        variable: "?lab",
-    #                        filter_language: true
-    # config.add_index_field 'skos:definition',
-    #                        label: 'Definition',
-    #                        variable: "?defn",
-    #                        filter_language: true
-    config.add_index_field 'subject',
-                           label: 'Subject',
-                           field: 'bf:subject',
-                           helper_method: 'render_subject',
-                           variable: '?subjectLabel',
+    config.add_index_field 'bf:subject',
+                           label: 'Topics',
+                           variable: '?topicLabel',
                            patterns: [
-                             '?id a bf:Instance',
-                             '?id bf:instanceOf ?work',
-                             '?work bf:subject ?topic',
+                             '?id a bf:Work',
+                             '?id bf:subject ?topic',
                              '?topic a bf:Topic',
                              '?topic mads:authoritativeLabel ?topicLabel'
                            ],
-                           filter_language: true
+                           filter_language: false
   end
 
   # Sparql fields to be displayed in the show (single result) view
   #   The ordering of the field names is the order of the display
   def self.show_fields(config)
-    # config.add_show_field 'skos:prefLabel', label: 'Label', variable: "?lab", filter_language: true
-    # config.add_show_field 'skos:definition', label: 'Definition', variable: "?defn", filter_language: true
-    # config.add_show_field 'num_label',
-    #   field: 'dcterms:isPartOf',
-    #   helper_method: 'render_numismatics',
-    #   label: 'Numismatics',
-    #   variable: "?num_lab",
-    #   patterns: [
-    #     "?id dcterms:isPartOf ?num",
-    #     "?num a nmo:FieldOfNumismatics",
-    #     "?num skos:prefLabel ?num_lab"
-    #   ],
-    #   filter_language: true
-
-    config.add_show_field 'subject',
-                          label: 'Subject',
+    config.add_show_field 'topics',
+                          label: 'Topics',
                           field: 'bf:subject',
-                          helper_method: 'render_subject',
-                          variable: '?subjectLabel',
+                          variable: '?topicLabel',
+                          helper_method: 'render_topics',
                           patterns: [
-                            '?id a bf:Instance',
-                            '?id bf:instanceOf ?work',
-                            '?work bf:subject ?topic',
+                            '?id a bf:Work',
+                            '?id bf:subject ?topic',
                             '?topic a bf:Topic',
                             '?topic mads:authoritativeLabel ?topicLabel'
                           ],
-                          filter_language: true
-
+                          filter_language: false
   end
 
   # "fielded" search configuration. Used by pulldown among other places.

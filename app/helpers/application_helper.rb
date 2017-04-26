@@ -1,5 +1,9 @@
 module ApplicationHelper
-  def render_subject(options = {})
-    options[:value].map { |val| val["bf:subject"] }.join(', ')
+  def render_topics(options = {})
+
+    # TODO: figure out how the SparqlConfig maps to this :value?
+    # puts options[:value].inspect
+
+    options[:value].map { |val| val['mads:authoritativeLabel'] }.join(', ')
   end
 end
