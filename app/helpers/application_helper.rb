@@ -1,11 +1,24 @@
 module ApplicationHelper
 
-  def render_genre(options = {})
-    options[:value].map { |val| val['rdfs:label'] }.uniq.join(', ')
+  def collect_values(options, field)
+    options[:value].map { |val| val[field] }.compact
   end
 
-  def render_subjects(options = {})
-    options[:value].map { |val| val['mads:authoritativeLabel'] }.join(', ')
+  def render_contribution(options = {})
+    agents = collect_values(options, 'bf:agent')
+    agents.map {|agent| agent['rdfs:label'] }.join('; ')
+  end
+
+  def render_genre(options = {})
+    collect_values(options, 'rdfs:label').uniq.join('; ')
+  end
+
+  def render_rdfs_label(options = {})
+    collect_values(options, 'rdfs:label').join('; ')
+  end
+
+  def render_subject(options = {})
+    collect_values(options, 'mads:authoritativeLabel').join('; ')
   end
 
 end

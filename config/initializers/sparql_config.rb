@@ -76,15 +76,13 @@ module SparqlConfig
   #    a filter for the variable result if it is a language-tagged literal.
   def self.facet_fields(config)
 
-    # TODO: Subjects are too large for facets, need to parse them and consolidate them.
-    config.add_facet_field 'subjects',
-                           label: 'Subjects',
-                           variable: '?topicLabel',
+    config.add_facet_field 'contribution',
+                           label: 'Contributors',
+                           variable: '?agentLabel',
                            patterns: [
-                             '?id a bf:Work',
-                             '?id bf:subject ?topic',
-                             '?topic a bf:Topic',
-                             '?topic mads:authoritativeLabel ?topicLabel'
+                             '?id bf:contribution ?contribution',
+                             '?contribution bf:agent ?agent',
+                             '?agent rdfs:label ?agentLabel'
                            ],
                            filter_language: false
 
@@ -94,6 +92,17 @@ module SparqlConfig
                            patterns: [
                              '?id bf:genreForm ?genre',
                              '?genre rdfs:label ?genreLabel',
+                           ],
+                           filter_language: false
+
+    # TODO: Subjects are too large for facets, need to parse them and consolidate them.
+    config.add_facet_field 'subject',
+                           label: 'Subjects',
+                           variable: '?topicLabel',
+                           patterns: [
+                             '?id bf:subject ?topic',
+                             '?topic a bf:Topic',
+                             '?topic mads:authoritativeLabel ?topicLabel'
                            ],
                            filter_language: false
 
@@ -118,15 +127,15 @@ module SparqlConfig
   # * `filter_language` set to true, if the configured language should be used
   #   as a filter for the variable result if it is a language-tagged literal.
   def self.index_fields(config)
-    config.add_index_field 'bf:subject',
-                           label: 'Subjects',
-                           variable: '?topicLabel',
-                           helper_method: 'render_subjects',
+    config.add_index_field 'contribution',
+                           label: 'Contributors',
+                           field: 'bf:contribution',
+                           variable: '?agentLabel',
+                           helper_method: 'render_contribution',
                            patterns: [
-                             '?id a bf:Work',
-                             '?id bf:subject ?topic',
-                             '?topic a bf:Topic',
-                             '?topic mads:authoritativeLabel ?topicLabel'
+                             '?id bf:contribution ?contribution',
+                             '?contribution bf:agent ?agent',
+                             '?agent rdfs:label ?agentLabel'
                            ],
                            filter_language: false
 
@@ -136,8 +145,32 @@ module SparqlConfig
                            variable: '?genreLabel',
                            helper_method: 'render_genre',
                            patterns: [
-                             '?id bf:genreForm ?genre',
-                             '?genre rdfs:label ?genreLabel',
+                               '?id bf:genreForm ?genre',
+                               '?genre rdfs:label ?genreLabel',
+                           ],
+                           filter_language: false
+
+    config.add_index_field 'titles',
+                           label: 'Title',
+                           field: 'bf:title',
+                           variable: '?titleLabel',
+                           helper_method: 'render_rdfs_label',
+                           patterns: [
+                             '?id bf:title ?title',
+                             '?title rdfs:label ?titleLabel'
+                           ],
+                           filter_language: false
+
+    config.add_index_field 'subject',
+                           label: 'Subjects',
+                           field: 'bf:subject',
+                           variable: '?topicLabel',
+                           helper_method: 'render_subject',
+                           patterns: [
+                               '?id a bf:Work',
+                               '?id bf:subject ?topic',
+                               '?topic a bf:Topic',
+                               '?topic mads:authoritativeLabel ?topicLabel'
                            ],
                            filter_language: false
   end
@@ -145,16 +178,15 @@ module SparqlConfig
   # Sparql fields to be displayed in the show (single result) view
   #   The ordering of the field names is the order of the display
   def self.show_fields(config)
-    config.add_show_field 'subjects',
-                          label: 'Subjects',
-                          field: 'bf:subject',
-                          variable: '?topicLabel',
-                          helper_method: 'render_subjects',
+    config.add_show_field 'contribution',
+                          label: 'Contributors',
+                          field: 'bf:contribution',
+                          variable: '?agentLabel',
+                          helper_method: 'render_contribution',
                           patterns: [
-                            '?id a bf:Work',
-                            '?id bf:subject ?topic',
-                            '?topic a bf:Topic',
-                            '?topic mads:authoritativeLabel ?topicLabel'
+                            '?id bf:contribution ?contribution',
+                            '?contribution bf:agent ?agent',
+                            '?agent rdfs:label ?agentLabel'
                           ],
                           filter_language: false
 
@@ -169,6 +201,29 @@ module SparqlConfig
                           ],
                           filter_language: false
 
+    config.add_show_field 'title',
+                          label: 'Title',
+                          field: 'bf:title',
+                          variable: '?titleLabel',
+                          helper_method: 'render_rdfs_label',
+                          patterns: [
+                            '?id bf:title ?title',
+                            '?title rdfs:label ?titleLabel'
+                          ],
+                          filter_language: false
+
+    config.add_show_field 'subject',
+                          label: 'Subjects',
+                          field: 'bf:subject',
+                          variable: '?topicLabel',
+                          helper_method: 'render_subject',
+                          patterns: [
+                              '?id a bf:Work',
+                              '?id bf:subject ?topic',
+                              '?topic a bf:Topic',
+                              '?topic mads:authoritativeLabel ?topicLabel'
+                          ],
+                          filter_language: false
   end
 
   # "fielded" search configuration. Used by pulldown among other places.
