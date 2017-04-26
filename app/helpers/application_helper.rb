@@ -28,7 +28,12 @@ module ApplicationHelper
   end
 
   def render_genre(options = {})
-    collect_values(options, 'rdfs:label').uniq.join('; ')
+    genre = options[:value].map do |val|
+              id = val['@id']
+              labels = [val['rdfs:label']].flatten
+              labels.map { |label| link_to label, id }
+            end.flatten.uniq.compact
+    safe_join(genre, '<br />'.html_safe)
   end
 
   def render_identifier(options = {})
